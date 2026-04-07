@@ -1,0 +1,62 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "Montserrat", ui-sans-serif, system-ui, sans-serif;
+  --breakpoint-section: 1050px;
+  --breakpoint-page: 1440px;
+
+  --spacing-section: 1050px;
+  --spacing-page: 1440px;
+}
+
+@layer base {
+  html {
+    font-family: var(--font-sans);
+  }
+
+  .navbar-links-hover {
+    @apply cursor-pointer hover:text-[#23A6F0] transition-colors duration-300;
+  }
+
+  .pricing-save-passive {
+    @apply bg-[#B2E3FF] text-[#23A6F0] text-xs font-bold px-4 py-3 rounded-full;
+  }
+
+  .pricing-save-active {
+    @apply bg-[#23A6F0] text-[#FFFFFF] text-xs font-bold px-4 py-3 rounded-full;
+  }
+
+  .footer-top {
+    width: 100%;
+    transition: background-color 0.3s ease;
+  }
+
+  .footer-top-white {
+    background-color: #ffffff;
+  }
+
+  .footer-top-gray {
+    background-color: #fafafa;
+  }
+
+  .footer-top-content {
+    max-width: 1050px;
+    margin: 0 auto;
+    padding: 3rem 2rem;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    gap: 1.5rem;
+    border-bottom: 1px solid #ececec;
+  }
+
+  @media (min-width: 768px) {
+    .footer-top-content {
+      flex-direction: row;
+      align-items: center;
+      padding-left: 0;
+      padding-right: 0;
+    }
+  }
+}

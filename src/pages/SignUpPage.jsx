@@ -1,4 +1,3 @@
-import Footer from "../layout/Footer/Footer";
 import SignUpForm from "../components/auth/SignUpForm";
 import SignUpFooterInfo from "../sections/singUp/SignUpFooterInfo";
 import { Link } from "react-router-dom";
@@ -8,7 +7,6 @@ const SignUpPage = () => {
     <div className="min-h-screen flex flex-col bg-[#FFF]">
       <header className="w-full bg-white border-b border-[#ECECEC]">
         <div className="max-w-section mx-auto px-8 md:px-0 py-6 flex justify-between items-center">
-          {/* SOL: LOGO */}
           <Link to="/" className="text-3xl font-bold text-[#252B42] cursor-pointer">
             Bandage
           </Link>

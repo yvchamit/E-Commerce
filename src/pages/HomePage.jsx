@@ -7,6 +7,7 @@ import Posts from "../sections/home/Posts";
 import Footer from "../layout/Footer/Footer";
 import ProductCard from "../components/ProductCard";
 import BestsellerProducts from "../sections/shop/BestsellerProducts";
+import { homeProducts } from "../data/homePageData";
 
 function HomePage() {
   return (
@@ -14,7 +15,9 @@ function HomePage() {
       <Header page="home" />
       <MainSlider />
       <EditorsPick />
-      <BestsellerProducts/>
+      <div className="md:pb-18">
+        <BestsellerProducts products={homeProducts} page="home" />
+      </div>
       <SecondSlider />
       <Storyteller />
       <Posts />

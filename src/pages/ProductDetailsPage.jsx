@@ -5,6 +5,7 @@ import Header from "../layout/Header/Header";
 import ShopBreadCrump from "../layout/Header/ShopBreadCrump";
 import ProductDetail from "../sections/product/ProductDetail";
 import ProductTabs from "../sections/product/ProductTabs";
+import { bestProducts } from "../data/productPageData";
 
 function ProductDetailsPage() {
   return (
@@ -13,7 +14,13 @@ function ProductDetailsPage() {
       <ShopBreadCrump showTitle={false} currentPage="Shop" />
       <ProductDetail />
       <ProductTabs />
-      <BestsellerProducts />
+      <BestsellerProducts
+        products={bestProducts}
+        page="details"
+        showColors={false}
+        aspect="1/1"
+        align="left"
+      />
       <Clients />
       <Footer footerTopClassName={"bg-white"} />
     </>

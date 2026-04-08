@@ -39,13 +39,12 @@ const ContactHero = ({ page = "contact" }) => {
   return (
     <section className="w-full overflow-y-visible bg-white">
       <div className="max-w-section mx-auto px-8 md:px-0 flex flex-col md:flex-row items-center justify-between min-h-150 md:min-h-175">
-        {/* SOL İÇERİK ALANI: flex-1 (Alanın %33-40'ını kaplar) */}
         <div className="flex-1.5 flex flex-col gap-10 py-12 md:py-0 text-center md:text-left items-center md:items-start z-20">
           <h5 className="font-bold text-[#252B42] text-sm tracking-widest uppercase">
             {isAbout ? "ABOUT COMPANY" : "CONTACT US"}
           </h5>
 
-          <h1 className="text-4xl md:text-[58px] font-bold text-[#252B42] leading-[1.1] tracking-tight">
+          <h1 className="text-4xl md:text-[58px] font-bold text-[#252B42] leading-[1.1] tracking-tight px-8 md:px-0">
             {isAbout ? (
               <>ABOUT US</>
             ) : (

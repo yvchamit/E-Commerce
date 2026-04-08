@@ -44,7 +44,7 @@ const LoginPage = () => {
         <div className="text-center mb-10">
           <p className="text-[#252B42] font-bold text-xl">Welcome Back!</p>
           <p className="text-[#737373] text-sm mt-2">
-            Please enter your details to sign in.
+            Please enter your information to log in.
           </p>
         </div>
 
@@ -57,7 +57,7 @@ const LoginPage = () => {
               href="/signup"
               className="text-[#23A6F0] font-bold hover:underline ml-1"
             >
-              Create an account
+              <br className="md:hidden inline-block"/>Create an account
             </a>
           </p>
         </div>

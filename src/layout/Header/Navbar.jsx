@@ -10,7 +10,7 @@ import { cn } from "../../lib/mergeClass";
 import MobileMenu from "./MobileMenu";
 import BtnContact from "../../components/BtnContact";
 
-export default function Navbar({ page, variant, maxWidth, isGray, showIcon }) {
+export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isCorporate = variant === "auth";
 
@@ -20,8 +20,9 @@ export default function Navbar({ page, variant, maxWidth, isGray, showIcon }) {
   return (
     <nav
       className={cn(
-        "w-full sticky top-0 z-50 bg-white",
+        "w-full sticky top-0 z-50 bg-white transition-colors duration-300",
         isGray && "md:bg-white",
+        isMenuOpen && page !== "home" ? "bg-[#F6F6F6]" : "bg-white"
       )}
     >
       <div
@@ -110,7 +111,7 @@ export default function Navbar({ page, variant, maxWidth, isGray, showIcon }) {
         </div>
       </div>
 
-      <MobileMenu isOpen={isMenuOpen} type={page} />
+      <MobileMenu isOpen={isMenuOpen} type={page} setIsOpen={setIsMenuOpen} />
     </nav>
   );
 }

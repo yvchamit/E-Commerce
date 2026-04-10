@@ -3,17 +3,14 @@ import { cn } from "../lib/mergeClass.js";
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;
 
-  // Görünecek sayfa numaralarını hesaplayan mantık
   const getPages = () => {
     const pages = [];
-    const showMax = 3; // Aktif sayfanın yanında kaç tane görünsün?
+    const showMax = 3;
 
     if (totalPages <= 7) {
-      // Eğer toplam sayfa azsa hepsini göster
       for (let i = 1; i <= totalPages; i++) pages.push(i);
     } else {
-      // Çok sayfa varsa (örn 49), akıllı kısaltma yap:
-      pages.push(1); // Her zaman 1. sayfayı göster
+      pages.push(1);
 
       if (currentPage > showMax + 2) pages.push("...");
 
@@ -24,7 +21,7 @@ const Pagination = ({ currentPage, totalPages, onPageChange }) => {
 
       if (currentPage < totalPages - (showMax + 1)) pages.push("...");
 
-      pages.push(totalPages); // Her zaman son sayfayı göster
+      pages.push(totalPages);
     }
     return pages;
   };

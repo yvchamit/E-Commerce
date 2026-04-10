@@ -1,15 +1,19 @@
-import React from "react";
-import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 
 const CartDropdown = () => {
   const { cart } = useSelector((state) => state.cart);
   const totalItems = cart.reduce((total, item) => total + item.count, 0);
 
+  const subtotal = cart.reduce(
+    (total, item) => total + item.product.price * item.count,
+    0,
+  );
+
   return (
-    <div className="absolute right-0 top-full w-80 bg-white shadow-2xl border border-gray-100 rounded-lg z-100 p-4 hidden group-hover:block transition-all">
-      {/* 1. Başlık: Kaç ürün olduğu */}
-      <h3 className="font-bold text-[#252B42] mb-4 pb-2 text-base">
+    <div className="absolute right-0 top-full w-80 bg-white shadow-2xl border border-gray-100 rounded-lg z-100 p-4 hidden group-hover:block animate-in fade-in slide-in-from-top-2 duration-200">
+      {/* 1. Başlık */}
+      <h3 className="font-bold text-[#252B42] mb-4 pb-2 text-base border-b border-gray-50">
         My Cart ({totalItems} {totalItems === 1 ? "Item" : "Items"})
       </h3>
 
@@ -17,32 +21,33 @@ const CartDropdown = () => {
       <div className="max-h-80 overflow-y-auto pr-2 custom-scrollbar">
         {cart.length > 0 ? (
           cart.map((item, index) => (
-            <div key={index} className="flex gap-4 py-4 border-b last:border-0">
-              {/* Sol: Ürün Görseli */}
-              <div className="w-16 h-20 shrink-0">
-                <img
-                  src={item.product.images?.[0]?.url || item.product.image}
-                  alt={item.product.name}
-                  className="w-full h-full object-cover rounded shadow-sm"
-                />
+            <div
+              key={item.product.id || index}
+              className="flex gap-4 py-3 border-b border-gray-50 last:border-0"
+            >
+              <div className="w-14 h-16 shrink-0">
+                <Link
+                  to={`/product/${item.product.id}/${item.product.name.toLowerCase().replaceAll(" ", "-")}`}
+                  className="w-14 h-16 shrink-0 block overflow-hidden rounded shadow-sm hover:opacity-80 transition-opacity"
+                >
+                  <img
+                    src={item.product.images?.[0]?.url || item.product.image}
+                    alt={item.product.name}
+                    className="w-full h-full object-cover transition-transform duration-300 hover:scale-110"
+                  />
+                </Link>
               </div>
 
-              {/* Sağ: Detaylar */}
-              <div className="flex flex-col flex-1 min-w-0">
-                <h4 className="text-sm font-bold text-[#252B42] truncate">
+              <div className="flex flex-col flex-1 min-w-0 justify-center">
+                <h4 className="text-[13px] font-bold text-[#252B42] truncate">
                   {item.product.name}
                 </h4>
-                {/* Varsa Açıklama */}
-                <p className="text-[11px] text-[#737373] line-clamp-1 mt-1 font-medium">
-                  {item.product.description}
-                </p>
-
-                <div className="flex justify-between items-center mt-2">
-                  <span className="text-xs font-semibold text-[#737373]">
-                    Quantity: {item.count}
+                <div className="flex justify-between items-center mt-1">
+                  <span className="text-[11px] text-[#737373]">
+                    Qty: {item.count}
                   </span>
-                  <span className="text-sm font-bold text-[#23A6F0]">
-                    ${(item.product.price * item.count).toFixed(2)}
+                  <span className="text-[13px] font-bold text-[#23A6F0]">
+                    {(item.product.price * item.count).toLocaleString()} TL
                   </span>
                 </div>
               </div>
@@ -50,28 +55,43 @@ const CartDropdown = () => {
           ))
         ) : (
           <div className="py-10 text-center">
-            <p className="text-sm text-[#737373] font-medium">
+            <p className="text-sm text-[#737373] font-medium italic">
               Your cart is currently empty.
             </p>
           </div>
         )}
       </div>
 
-      {/* 3. Butonlar */}
+      {/* 3. Özet ve Butonlar */}
       {cart.length > 0 && (
-        <div className="flex flex-col gap-2 mt-4 pt-2 border-t border-gray-100">
-          <Link
-            to="/shopping-cart"
-            className="w-full py-2.5 text-center bg-[#23A6F0] text-white text-sm font-bold rounded hover:bg-[#1a8cd3] transition-all"
-          >
-            GO TO CART
-          </Link>
-          <Link
-            to="/checkout"
-            className="w-full py-2.5 text-center border-2 border-[#23A6F0] text-[#23A6F0] text-sm font-bold rounded hover:bg-[#23A6F0] hover:text-white transition-all block"
-          >
-            CHECKOUT
-          </Link>
+        <div className="mt-4 pt-4 border-t border-gray-100">
+          {/* Toplam Bilgisi */}
+          <div className="flex justify-between items-center mb-4 px-1">
+            <span className="text-sm font-semibold text-[#737373]">
+              Subtotal:
+            </span>
+            <span className="text-lg font-bold text-[#252B42]">
+              {subtotal.toLocaleString()} TL
+            </span>
+          </div>
+
+          <div className="flex gap-2">
+            {/* Sepete Git - İkincil Buton */}
+            <Link
+              to="/shopping-cart"
+              className="flex-1 py-3 text-center border border-[#23A6F0] text-[#23A6F0] text-[12px] font-bold rounded hover:bg-blue-50 transition-all"
+            >
+              GO TO CART
+            </Link>
+
+            {/* Ödemeye Geç - Birincil Buton */}
+            <Link
+              to="/create-order"
+              className="flex-1 py-3 text-center bg-[#23A6F0] text-white text-[12px] font-bold rounded hover:bg-[#1a8cd3] shadow-md transition-all"
+            >
+              CHECKOUT
+            </Link>
+          </div>
         </div>
       )}
     </div>

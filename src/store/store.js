@@ -9,16 +9,19 @@ import { productReducer } from "./reducers/productReducer";
 import { shoppingCartReducer } from "./reducers/shoppingCartReducer";
 import { clientReducer } from "./reducers/clientReducer";
 import cartReducer from "./reducers/cartReducer";
+import { addressReducer } from "./reducers/addressReducer";
+import { paymentReducer } from "./reducers/paymentReducer";
 
 const rootReducer = combineReducers({
   client: clientReducer,
   product: productReducer,
   shoppingCart: shoppingCartReducer,
   cart: cartReducer,
+  address: addressReducer,
+  payment: paymentReducer,
 });
 
 
-// 1. Kaydedilmiş sepeti oku
 const loadCartFromLS = () => {
   try {
     const serializedCart = localStorage.getItem("my_shopping_cart");
@@ -29,21 +32,18 @@ const loadCartFromLS = () => {
   }
 };
 
-// 2. Başlangıç state'ini hazırla
 const preloadedState = {
   cart: {
     cart: loadCartFromLS() || [],
   },
 };
 
-// 3. Store'u oluştur
 export const store = createStore(
   rootReducer,
-  preloadedState, // Başlangıçta bu veriyle yüklenir
+  preloadedState,
   applyMiddleware(thunk, logger),
 );
 
-// 4. Her değişimde LS'ye kaydet
 store.subscribe(() => {
   const cartData = store.getState().cart.cart;
   localStorage.setItem("my_shopping_cart", JSON.stringify(cartData));

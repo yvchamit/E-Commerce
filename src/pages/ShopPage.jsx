@@ -11,59 +11,68 @@ import { cn } from "../lib/mergeClass";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/actions/productActions";
 import LoadingSpinner from "../components/LoadingSpinner";
-import { useParams } from "react-router-dom/cjs/react-router-dom.min";
+import { useHistory, useLocation, useParams } from "react-router-dom";
 
 function ShopPage() {
+  const history = useHistory();
+  const location = useLocation();
+
+  const queryParams = new URLSearchParams(location.search);
+  const pageFromUrl = parseInt(queryParams.get("page")) || 1;
   const { categoryId, categoryName, gender } = useParams();
+  const dispatch = useDispatch();
 
-  console.log("Gelen Parametreler:", { gender, categoryName, categoryId });
-
+  // Redux State
   const {
     productList = [],
     total = 0,
     fetchState,
     categories,
   } = useSelector((state) => state.product);
-  const actualTotal = productList.length || total;
 
-  console.log("Aktif Kategori ID:", categoryId);
-  const dispatch = useDispatch();
-
+  // State'ler
   const [filterText, setFilterText] = useState("");
   const [sortOption, setSortOption] = useState("");
+  const [view, setView] = useState("grid");
+  const [currentPage, setCurrentPage] = useState(1); // Tek bir sayfa state'i yeterli
+
+  // Sabitler
+  const LIMIT = 25;
+  const totalPages = Math.ceil((total || 0) / LIMIT);
 
   useEffect(() => {
-    // Tüm parametreleri tek bir obje olarak gönderiyoruz
     dispatch(
       fetchProducts({
         category: categoryId,
         filter: filterText,
         sort: sortOption,
+        page: pageFromUrl,
       }),
     );
-    setCurrentPage(1);
-  }, [dispatch, categoryId, sortOption, filterText]);
-
-  const [view, setView] = useState("grid");
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const productsPerPage = 12;
-
-  const totalPages = Math.ceil(actualTotal / productsPerPage);
-
-  const currentProducts = productList.slice(
-    (currentPage - 1) * productsPerPage,
-    currentPage * productsPerPage,
-  );
-  // -------------------------
+  }, [dispatch, categoryId, sortOption, filterText, pageFromUrl]);
 
   const topCategories = [...categories]
     .sort((a, b) => b.rating - a.rating)
     .slice(0, 5);
 
   const handlePageChange = (pageNumber) => {
-    setCurrentPage(pageNumber);
-    window.scrollTo({ top: 500, behavior: "smooth" });
+    console.log("Gidilecek Sayfa:", pageNumber); // Debug için
+
+    if (history && history.push) {
+      const searchParams = new URLSearchParams(location.search);
+      searchParams.set("page", pageNumber);
+
+      history.push({
+        pathname: location.pathname,
+        search: searchParams.toString(),
+      });
+
+      window.scrollTo({ top: 500, behavior: "smooth" });
+    } else {
+      console.error(
+        "History nesnesi bulunamadı! React Router bağlantısını kontrol edin.",
+      );
+    }
   };
 
   return (
@@ -74,8 +83,8 @@ function ShopPage() {
 
       <ShopFilterBar
         actualTotal={total}
-        currentPage={currentPage} // State'den gelen
-        limit={12}
+        currentPage={currentPage}
+        limit={LIMIT}
         view={view}
         setView={setView}
         filterText={filterText}
@@ -100,7 +109,7 @@ function ShopPage() {
           )}
         >
           {productList.length > 0 ? (
-            currentProducts.map((product) => (
+            productList.map((product) => (
               <ProductCard
                 key={product.id}
                 product={product}
@@ -123,7 +132,7 @@ function ShopPage() {
 
       {totalPages > 1 && (
         <Pagination
-          currentPage={currentPage}
+          currentPage={pageFromUrl}
           totalPages={totalPages}
           onPageChange={handlePageChange}
         />

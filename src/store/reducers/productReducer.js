@@ -20,6 +20,8 @@ const initialProductState = {
   fetchState: "NOT_FETCHED", // "NOT_FETCHED", "FETCHING", "FETCHED", "FAILED"
 };
 
+
+
 export const productReducer = (state = initialProductState, action) => {
   switch (action.type) {
     case SET_CATEGORIES:

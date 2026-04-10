@@ -23,8 +23,19 @@ export const SET_FILTER = "SET_FILTER";
 export const SET_CART = "SET_CART";
 export const SET_PAYMENT = "SET_PAYMENT";
 export const SET_ADDRESS = "SET_ADDRESS";
+export const SET_TOTAL_PRODUCT_COUNT = "SET_TOTAL_PRODUCT_COUNT";
 
 export const TOGGLE_WISHLIST = "TOGGLE_WISHLIST";
+
+export const SET_ADDRESS_LIST = "SET_ADDRESS_LIST";
+export const SET_SELECTED_ADDRESS = "SET_SELECTED_ADDRESS";
+
+export const SET_CARD_LIST = "SET_CARD_LIST";
+export const ADD_NEW_CARD = "ADD_NEW_CARD";
+export const REMOVE_FROM_CART = "REMOVE_FROM_CART";
+export const TOGGLE_CHECK_ITEM = "TOGGLE_CHECK_ITEM";
+export const UPDATE_CART_ITEM = "UPDATE_CART_ITEM";
+export const CLEAR_CART = "CLEAR_CART";
 
 export const setUser = (user) => {
   return {

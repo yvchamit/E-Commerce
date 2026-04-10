@@ -9,15 +9,23 @@ import {
 import { GrPiedPiper } from "react-icons/gr";
 
 const clients = [
-  { id: 1, Icon: FaHooli, name: "Hooli" },
-  { id: 2, Icon: FaLyft, name: "Lyft" },
-  { id: 3, Icon: GrPiedPiper, name: "Pied Piper" },
-  { id: 4, Icon: FaStripe, name: "Stripe" },
-  { id: 5, Icon: FaAws, name: "AWS" },
-  { id: 6, Icon: FaRedditAlien, name: "Reddit" },
+  {
+    id: 1,
+    Icon: FaHooli,
+    name: "Hooli",
+    url: "https://www.google.com/search?q=hooli",
+  },
+  { id: 2, Icon: FaLyft, name: "Lyft", url: "https://www.lyft.com" },
+  {
+    id: 3,
+    Icon: GrPiedPiper,
+    name: "Pied Piper",
+    url: "https://www.google.com/search?q=pied+piper",
+  },
+  { id: 4, Icon: FaStripe, name: "Stripe", url: "https://www.stripe.com" },
+  { id: 5, Icon: FaAws, name: "AWS", url: "https://aws.amazon.com" },
+  { id: 6, Icon: FaRedditAlien, name: "Reddit", url: "https://www.reddit.com" },
 ];
-
-import React from "react";
 
 const Clients = ({
   title,
@@ -44,12 +52,18 @@ const Clients = ({
 
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-12 items-center justify-items-center">
           {clients.map((client) => (
-            <div
+            <a
               key={client.id}
-              className="group flex items-center justify-center w-full"
+              href={client.url || "#"}
+              target="_blank"
+              className="group flex items-center justify-center w-full transition-all duration-300"
             >
-              <client.Icon className="w-24 h-24 text-[#737373] opacity-90 transition-all duration-300 group-hover:opacity-100 group-hover:text-[#252B42] group-hover:drop-shadow-mdgroup-hover:scale-110 object-contain" />
-            </div>
+              <client.Icon
+                className="w-24 h-24 text-[#737373] opacity-75 transition-all duration-300 
+                group-hover:opacity-100 group-hover:text-[#252B42] group-hover:drop-shadow-sm 
+                group-hover:scale-110 object-contain cursor-pointer"
+              />
+            </a>
           ))}
         </div>
       </div>

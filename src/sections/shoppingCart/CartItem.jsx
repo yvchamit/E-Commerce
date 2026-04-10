@@ -1,25 +1,37 @@
 import { useDispatch } from "react-redux";
-import { updateCartItem, toggleCheckItem, removeFromCart } from "../../store/actions/cartActions";
-import { Trash2, Plus, Minus } from "lucide-react";
+import {
+  toggleCheckItem,
+  updateCartItem,
+  removeFromCart,
+} from "../../store/actions/shoppingCartActions";
+import { Minus, Plus, Trash2 } from "lucide-react";
 
 const CartItem = ({ item }) => {
   const dispatch = useDispatch();
+
+  // 1. Güvenli Destructuring (item yoksa çökmesini engeller)
+  if (!item || !item.product) return null;
+
   const { product, count, checked } = item;
 
   return (
     <div className="flex flex-col md:flex-row items-center gap-4 bg-white p-4 rounded-lg shadow-sm border border-gray-100 group transition-all hover:border-[#23A6F0]/30">
-      
       {/* 1. SEÇİM VE GÖRSEL */}
       <div className="flex items-center gap-4 w-full md:w-auto">
         <input
           type="checkbox"
-          checked={checked}
+          checked={checked || false} // checked undefined ise hata vermez
           onChange={() => dispatch(toggleCheckItem(product.id))}
           className="w-5 h-5 accent-[#23A6F0] cursor-pointer rounded"
         />
-        <div className="w-20 h-28 shrink-0 overflow-hidden rounded-md border border-gray-100">
+        <div className="w-20 h-28 shrink-0 overflow-hidden rounded-md border border-gray-100 bg-gray-50">
           <img
-            src={product.images?.[0]?.url || product.image}
+            // 2. Görsel yolu kontrolü (images dizisi boşsa veya image alanı yoksa)
+            src={
+              product.images?.[0]?.url ||
+              product.image ||
+              "https://via.placeholder.com/150"
+            }
             alt={product.name}
             className="w-full h-full object-cover transition-transform group-hover:scale-105"
           />
@@ -28,13 +40,13 @@ const CartItem = ({ item }) => {
 
       {/* 2. ÜRÜN BİLGİLERİ */}
       <div className="flex flex-col flex-1 min-w-0 w-full">
-        <h3 className="font-bold text-[#252B42] text-sm md:text-base line-clamp-2">
-          {product.name}
+        <h3 className="font-bold text-[#252B42] text-sm md:text-base line-clamp-2 uppercase">
+          {product.name || "Unknown Product"}
         </h3>
         <p className="text-xs text-[#737373] mt-1 line-clamp-1 italic">
-          {product.description}
+          {product.description || "No description available"}
         </p>
-        
+
         {/* KARGO BİLGİSİ */}
         <div className="mt-3 flex items-center gap-2">
           <span className="text-[10px] bg-green-100 text-green-700 px-2 py-0.5 rounded font-bold">
@@ -46,7 +58,6 @@ const CartItem = ({ item }) => {
 
       {/* 3. MİKTAR VE FİYAT KONTROLÜ */}
       <div className="flex flex-row md:flex-col items-center md:items-end justify-between w-full md:w-auto gap-4">
-        
         {/* MİKTAR BUTONLARI */}
         <div className="flex items-center bg-gray-50 rounded-lg border border-gray-200">
           <button
@@ -56,7 +67,9 @@ const CartItem = ({ item }) => {
           >
             <Minus size={14} />
           </button>
-          <span className="w-8 text-center font-bold text-sm">{count}</span>
+          <span className="w-8 text-center font-bold text-sm">
+            {count || 1}
+          </span>
           <button
             onClick={() => dispatch(updateCartItem(product.id, count + 1))}
             className="p-2 hover:text-[#23A6F0] transition-colors"
@@ -69,15 +82,16 @@ const CartItem = ({ item }) => {
         <div className="flex items-center gap-4">
           <div className="text-right">
             <p className="text-lg font-bold text-[#252B42]">
-              {(product.price * count).toLocaleString()} TL
+              {/* 3. Sayısal değer kontrolü */}
+              {((product.price || 0) * (count || 1)).toLocaleString()} TL
             </p>
             {count > 1 && (
               <p className="text-[10px] text-[#737373]">
-                Unit: {product.price.toLocaleString()} TL
+                Unit: {(product.price || 0).toLocaleString()} TL
               </p>
             )}
           </div>
-          
+
           <button
             onClick={() => dispatch(removeFromCart(product.id))}
             className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-full transition-all"

@@ -5,10 +5,9 @@ import { LOGIN_SUCCESS, SET_USER, setUser } from "../actionTypes";
 export const verifyToken = () => async (dispatch) => {
   const token = localStorage.getItem("token");
 
-  if (!token) return; // Token yoksa zorlama
+  if (!token) return;
 
   try {
-    // Token'ı header olarak gönderiyoruz (Genelde API bunu bekler)
     const response = await axios.get(
       "https://workintech-fe-ecommerce.onrender.com/verify",
       {
@@ -20,14 +19,12 @@ export const verifyToken = () => async (dispatch) => {
 
     const { token: newToken, ...user } = response.data;
 
-    // State'i tekrar doldur
     dispatch(setUser(user));
 
-    // Opsiyonel: Token yenilendiyse güncelle
     localStorage.setItem("token", newToken);
   } catch (error) {
     console.error("Token geçersiz:", error);
-    localStorage.removeItem("token"); // Geçersizse sil ki döngüye girmesin
+    localStorage.removeItem("token");
   }
 };
 

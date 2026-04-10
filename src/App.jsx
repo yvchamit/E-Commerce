@@ -15,6 +15,9 @@ import { useEffect } from "react";
 import { verifyToken } from "./store/actions/clientActions";
 import { fetchCategories } from "./store/actions/productActions";
 import ShoppingCartPage from "./pages/ShoppingCartPage";
+import ProtectedRoute from "./components/auth/ProtectedRoute";
+import OrderPage from "./pages/OrderPage";
+import OrderSuccessPage from "./pages/OrderSuccessPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -49,7 +52,11 @@ function App() {
           />
 
           <Route path="/product-detail" component={ProductDetailsPage} />
+
           <Route path="/shopping-cart" exact component={ShoppingCartPage} />
+
+          <ProtectedRoute path="/create-order" component={OrderPage} />
+          <Route path="/order-success" exact component={OrderSuccessPage} />
 
           <Route path="/about" component={AboutPage} />
           <Route path="/contact" component={ContactPage} />

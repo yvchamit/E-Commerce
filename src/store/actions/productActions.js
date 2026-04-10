@@ -8,8 +8,9 @@ import {
   SET_OFFSET,
   SET_FILTER,
   TOGGLE_WISHLIST,
+  SET_TOTAL_PRODUCT_COUNT,
 } from "../actionTypes";
-
+import { axiosInstance } from "../../lib/axiosInstance";
 
 export const setCategories = (categories) => ({
   type: SET_CATEGORIES,
@@ -42,25 +43,44 @@ export const fetchCategories = () => async (dispatch) => {
   }
 };
 
-export const toggleWishlist = (product) => ({ type: TOGGLE_WISHLIST, payload: product });
+export const toggleWishlist = (product) => ({
+  type: TOGGLE_WISHLIST,
+  payload: product,
+});
 
-export const fetchProducts = (params = {}) => async (dispatch) => {
-  dispatch({ type: "SET_FETCH_STATE", payload: "FETCHING" });
-  try {
-    const { category, filter, sort } = params;
-    
-    let url = "https://workintech-fe-ecommerce.onrender.com/products?limit=1000";
-    
+const LIMIT = 25;
+
+export const setTotalProductCount = (total) => ({
+  type: SET_TOTAL,
+  payload: total,
+});
+
+export const fetchProducts = (params = {}) => {
+  // Parametreleri obje olarak al
+  const { category, filter, sort, page = 1 } = params; // İçinden çek
+
+  return (dispatch) => {
+    dispatch(setFetchState("FETCHING"));
+
+    const LIMIT = 25;
+    const offset = (page - 1) * LIMIT;
+
+    let url = `https://workintech-fe-ecommerce.onrender.com/products?limit=${LIMIT}&offset=${offset}`;
+
     if (category) url += `&category=${category}`;
     if (filter) url += `&filter=${filter}`;
     if (sort) url += `&sort=${sort}`;
 
-    const response = await axios.get(url);
-    
-    dispatch({ type: "SET_PRODUCT_LIST", payload: response.data.products });
-    dispatch({ type: "SET_TOTAL", payload: response.data.total });
-    dispatch({ type: "SET_FETCH_STATE", payload: "FETCHED" });
-  } catch (error) {
-    dispatch({ type: "SET_FETCH_STATE", payload: "ERROR" });
-  }
+    axiosInstance
+      .get(url)
+      .then((res) => {
+        dispatch(setProductList(res.data.products));
+        dispatch(setTotalProductCount(res.data.total));
+        dispatch(setFetchState("FETCHED"));
+      })
+      .catch((err) => {
+        console.error("API Hatası:", err); // Konsola bakarak hatayı görebilirsin
+        dispatch(setFetchState("ERROR"));
+      });
+  };
 };

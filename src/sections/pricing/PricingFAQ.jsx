@@ -45,7 +45,6 @@ const PricingFAQ = () => {
   return (
     <section className="bg-white py-30 px-8 md:px-0">
       <div className="max-w-section mx-auto">
-        {/* 5. Üst Başlık ve Metin */}
         <div className="text-center mb-20">
           <h2 className="text-[40px] font-bold text-[#252B42] mb-4">
             Pricing FAQs
@@ -56,23 +55,18 @@ const PricingFAQ = () => {
           </p>
         </div>
 
-        {/* 1. İki Sütunlu Yapı */}
         <div className="grid grid-cols-1 md:grid-cols-2 gap-x-16 gap-y-16">
           {faqs.map((faq) => (
             <div key={faq.id} className="flex gap-0 md:gap-4">
-              {/* 3. Mavi Chevron İkonu: Sadece masaüstünde görünür (md:block) */}
               <div className="mt-1 shrink-0 hidden md:block">
                 <ChevronRight className="w-5 h-5 text-[#23A6F0]" />
               </div>
 
               <div className="flex flex-col gap-2 w-full">
-                {/* 4. Soru (Base #252B42) */}
-                {/* Mobilde ikon olmadığı için text-left ve padding-0 ile tam genişlik */}
                 <h4 className="text-base font-bold text-[#252B42] leading-snug">
                   {faq.question}
                 </h4>
 
-                {/* 4. Cevap (Sm #737373) */}
                 <p className="text-sm font-medium text-[#737373] leading-relaxed">
                   {faq.answer}
                 </p>
@@ -81,7 +75,6 @@ const PricingFAQ = () => {
           ))}
         </div>
 
-        {/* En Alt Destek Metni */}
         <div className="text-center mt-20 pt-12">
           <p className="text-xl text-[#737373] font-medium">
             Haven’t got your answer?{" "}

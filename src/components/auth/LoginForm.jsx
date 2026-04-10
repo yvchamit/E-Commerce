@@ -1,13 +1,30 @@
-// components/auth/LoginForm.js
 import { useState } from "react";
-import axios from "axios";
+import { useDispatch } from "react-redux";
+import { useHistory, useLocation } from "react-router-dom";
+import { loginUserAction } from "../../store/actions/clientActions";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
+  const [rememberMe, setRememberMe] = useState(false); // Beni hatırla state'i
   const [loading, setLoading] = useState(false);
 
+  const dispatch = useDispatch();
+  const history = useHistory();
+  const location = useLocation();
+
+  // Önceki sayfayı hatırla, yoksa ana sayfaya git
+  const { from } = location.state || { from: { pathname: "/" } };
+
   const handleChange = (e) => {
-    setFormData({ ...formData, [e.target.name]: e.target.value });
+    const value =
+      e.target.type === "checkbox" ? e.target.checked : e.target.value;
+    const name = e.target.name;
+
+    if (name === "rememberMe") {
+      setRememberMe(value);
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const handleSubmit = async (e) => {
@@ -15,17 +32,10 @@ const LoginForm = () => {
     setLoading(true);
 
     try {
-      const res = await axios.post(
-        "https://workintech-fe-ecommerce.onrender.com/login",
-        formData,
-      );
-      console.log("Giriş Başarılı, Token:", res.data.token);
+      await dispatch(loginUserAction(formData, rememberMe));
 
-      // TODO: Burası RTK Dispatch noktası olacak!
-      localStorage.setItem("token", res.data.token);
-      alert("Giriş başarılı!");
+      history.push(from);
     } catch (err) {
-      alert("E-posta veya şifre hatalı.");
     } finally {
       setLoading(false);
     }
@@ -57,6 +67,19 @@ const LoginForm = () => {
           className="p-3 bg-[#F9F9F9] border border-[#ECECEC] rounded-md focus:outline-[#23A6F0]"
           placeholder="********"
         />
+      </div>
+
+      <div className="flex items-center gap-2 pl-2">
+        <input
+          id="rememberMe"
+          name="rememberMe"
+          type="checkbox"
+          onChange={handleChange}
+          className="w-4 h-4 text-[#23A6F0]"
+        />
+        <label htmlFor="rememberMe" className="text-sm text-[#737373]">
+          Remember Me
+        </label>
       </div>
 
       <button

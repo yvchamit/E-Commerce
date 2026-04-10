@@ -1,4 +1,4 @@
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route } from "react-router-dom";
 import HomePage from "./pages/HomePage";
 import ProductDetailsPage from "./pages/ProductDetailsPage";
 import ShopPage from "./pages/ShopPage";
@@ -8,41 +8,56 @@ import PricingPage from "./pages/PricingPage";
 import AboutPage from "./pages/AboutPage";
 import SignUpPage from "./pages/SignUpPage";
 import LoginPage from "./pages/LoginPage";
-import Header from "./layout/Header/Header";
 import BlogPage from "./pages/BlogPage";
+import { ToastContainer } from "react-toastify";
+import { useDispatch } from "react-redux";
+import { useEffect } from "react";
+import { verifyToken } from "./store/actions/clientActions";
+import { fetchCategories } from "./store/actions/productActions";
+import ShoppingCartPage from "./pages/ShoppingCartPage";
 
 function App() {
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    dispatch(verifyToken());
+  }, [dispatch]);
+
+  useEffect(() => {
+    dispatch(fetchCategories()); // Uygulama açılırken kategorileri çek
+    // ... diğer check işlemlerin (verifyToken vb.)
+  }, [dispatch]);
 
   return (
     <div className="font-sans text-[#252B42]">
       <main className="grow">
+        <ToastContainer />
         <Switch>
-          {/* 1. Ana Sayfa (exact şart!) */}
           <Route exact path="/" component={HomePage} />
-
-          {/* 2. Login & SignUp */}
           <Route path="/login" component={LoginPage} />
           <Route path="/signup" component={SignUpPage} />
 
-          {/* 3. Mağaza (Ürün Listeleme) */}
-          <Route path="/shop" component={ShopPage} />
+          <Route path="/product/:productId" component={ProductDetailsPage} />
 
-          {/* 4. Ürün Detay (Dinamik ID ile) */}
+          <Route
+            path="/shop/:gender/:categoryName/:categoryId/:productId/:productNameSlug"
+            component={ProductDetailsPage}
+          />
+          <Route
+            path="/shop/:gender?/:categoryName?/:categoryId?"
+            component={ShopPage}
+          />
+
           <Route path="/product-detail" component={ProductDetailsPage} />
-          {/* İpucu: İleride bunu /product/:id yapabilirsin */}
+          <Route path="/shopping-cart" exact component={ShoppingCartPage} />
 
-          {/* 5. Hakkımızda ve İletişim */}
           <Route path="/about" component={AboutPage} />
           <Route path="/contact" component={ContactPage} />
           <Route path="/blog" component={BlogPage} />
 
-
-          {/* 6. Hakkımızda ve İletişim */}
           <Route path="/pricing" component={PricingPage} />
           <Route path="/team" component={TeamPage} />
-          
 
-          {/* 7. 404 Sayfası (Hiçbir rota eşleşmezse) */}
           <Route path="*">
             <div className="py-20 text-center font-bold text-2xl">
               404 - Aradığınız sayfa bulunamadı.

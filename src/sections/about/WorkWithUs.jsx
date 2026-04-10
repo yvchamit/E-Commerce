@@ -3,9 +3,8 @@ import React from "react";
 const WorkWithUs = () => {
   return (
     <section className="w-full bg-[#252B42] overflow-hidden">
-      {/* 3. Kritik Nokta: Toplam Genişlik max-w-page (Örn: 1440px veya 1600px) */}
       <div className="max-w-page mx-auto flex flex-col md:flex-row items-stretch">
-        {/* 1 & 2. Mavi Alan (#2A7CC7) ve Metin Hizalaması */}
+
         {/* md:w-[60%] ile alanı bölüyoruz */}
         <div className="w-full md:w-[60%] bg-[#2A7CC7] text-white py-24 md:py-40 flex justify-end">
           {/* Metinleri üstteki elemanlarla (max-w-section) hizalamak için:

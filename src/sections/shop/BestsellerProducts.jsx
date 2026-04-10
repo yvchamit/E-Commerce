@@ -1,7 +1,7 @@
 import ProductCard from "../../components/ProductCard";
 
 function BestsellerProducts({
-  products, // Dışarıdan gelen ürün listesi
+  products,
   page = "home",
   showColors,
   aspect,
@@ -9,15 +9,16 @@ function BestsellerProducts({
 }) {
   const isHome = page === "home";
 
-  // Eğer veri henüz gelmediyse veya boşsa null dönerek hata almayı önleriz
   if (!products || products.length === 0) return null;
 
   return (
     <section
-      className={`pt-14 pb-4 ${isHome ? "bg-[#FFFFFF]" : "bg-[#FAFAFA]"}`}
+      className={`pt-14 pb-20 ${isHome ? "bg-[#FFFFFF]" : "bg-[#FAFAFA]"}`}
     >
       <div
-        className={`max-w-section mx-auto px-8 md:px-0 ${isHome ? "text-center mb-12" : "text-left mb-8"}`}
+        className={`max-w-section mx-auto px-8 md:px-0 ${
+          isHome ? "text-center mb-12" : "text-left mb-6"
+        }`}
       >
         {isHome && (
           <h4 className="text-xl text-[#737373] font-medium mb-4">
@@ -27,7 +28,7 @@ function BestsellerProducts({
 
         <h2
           className={`text-2xl font-bold text-[#252B42] uppercase tracking-wider ${
-            isHome ? "mb-4" : "pb-4 border-b-2 border-[#ECECEC] mx-8 md:mx-0"
+            isHome ? "mb-4" : "pb-6 border-b-2 border-[#ECECEC] mb-12"
           }`}
         >
           BESTSELLER PRODUCTS
@@ -40,8 +41,8 @@ function BestsellerProducts({
         )}
       </div>
 
-      {/* Dinamik Render Alanı */}
-      <div className="max-w-section mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-20 px-8 md:px-0">
+      {/* Grid Alanı */}
+      <div className="max-w-section mx-auto grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-x-8 gap-y-16 px-8 md:px-0">
         {products.map((item) => (
           <ProductCard
             key={item.id}
@@ -49,6 +50,7 @@ function BestsellerProducts({
             showColors={showColors}
             aspect={aspect}
             align={align}
+            view="grid"
           />
         ))}
       </div>

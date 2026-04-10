@@ -11,7 +11,6 @@ const Infobar = ({ maxWidth, bgColor }) => {
           maxWidth,
         )}
       >
-        {/* İletişim Bilgileri ve Sosyal Medya İkonları Buraya */}
         <div className="flex gap-4 items-center">
           <span>(225) 555-0118</span>
           <span>michelle.rivera@example.com</span>

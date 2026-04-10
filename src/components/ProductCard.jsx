@@ -1,8 +1,9 @@
 import { cn } from "../lib/mergeClass";
 import ProductColors from "./ProductColors";
+import { Link } from "react-router-dom";
 
 function ProductCard({
-  product, // Tüm veriyi bu obje üzerinden alıyoruz
+  product,
   showColors = true,
   aspect = "3/4",
   align = "center",
@@ -11,13 +12,24 @@ function ProductCard({
   const isList = view === "list";
   const isLeft = align === "left" || isList;
 
-  // Güvenlik: Eğer product objesi gelmezse hata vermemesi için
   if (!product) return null;
 
+  const name = product.name || product.title || "Adsız Ürün";
+  const description = product.description || "Açıklama bulunmuyor.";
+  const price = product.price || 0;
+  const oldPrice = (price * 1.2).toFixed(2);
+
+  const productNameSlug = name.toLowerCase().replace(/\s+/g, "-");
+  const gender = product.gender === "m" ? "erkek" : "kadin";
+  const categoryName = "product"; // URL yapısı için genel isim
+
+  const detailUrl = `/shop/${gender}/${categoryName}/${product.category_id}/${product.id}/${productNameSlug}`;
+
   return (
-    <div
+    <Link
+      to={detailUrl}
       className={cn(
-        "group cursor-pointer bg-[#FFFFFF] transition-all duration-300",
+        "group cursor-pointer bg-[#FFFFFF] transition-all duration-300 block",
         isList
           ? "flex flex-row items-center gap-8 w-full border-b border-[#ECECEC] pb-8"
           : cn(
@@ -26,7 +38,7 @@ function ProductCard({
             ),
       )}
     >
-      {/* Ürün Görseli */}
+      {/* Görsel Bölümü */}
       <div
         style={{ aspectRatio: isList ? "1/1" : aspect }}
         className={cn(
@@ -35,25 +47,28 @@ function ProductCard({
         )}
       >
         <img
-          src={product.image} // Dinamik resim
+          src={
+            product.images?.[0]?.url ||
+            "https://via.placeholder.com/300x400?text=No+Image"
+          }
           className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-          alt={product.title}
+          alt={name}
         />
       </div>
 
-      {/* Ürün Bilgileri */}
+      {/* Bilgi Bölümü */}
       <div
         className={cn(
           "flex flex-col px-2 w-full",
           isLeft ? "items-start md:pl-4" : "items-center",
         )}
       >
-        <h5 className="font-bold text-[#252B42] text-xl line-clamp-1">
-          {product.title} {/* Dinamik Başlık */}
+        <h5 className="font-bold text-[#252B42] text-xl line-clamp-1 group-hover:text-[#23A6F0] transition-colors">
+          {name}
         </h5>
 
         <p className="text-[#737373] text-sm font-bold my-2 line-clamp-1">
-          {product.department} {/* Dinamik Departman */}
+          {description}
         </p>
 
         <div
@@ -62,26 +77,25 @@ function ProductCard({
             isLeft ? "justify-start" : "justify-center",
           )}
         >
-          <span className="text-[#BDBDBD]">${product.oldPrice}</span>{" "}
-          {/* Dinamik Eski Fiyat */}
-          <span className="text-[#23856D]">${product.price}</span>{" "}
-          {/* Dinamik Yeni Fiyat */}
+          <span className="text-[#BDBDBD] font-bold line-through">
+            ${oldPrice}
+          </span>
+          <span className="text-[#23856D] font-bold">${price}</span>
         </div>
 
         {showColors && (
           <div className={isLeft ? "w-full flex justify-start" : ""}>
-            {/* Hazırladığın modüler renk bileşeni */}
             <ProductColors colors={product.colors} />
           </div>
         )}
 
         {isList && (
           <p className="text-[#737373] text-sm mt-4 hidden md:line-clamp-2">
-            {product.description} {/* Dinamik Açıklama (Sadece List View) */}
+            {description}
           </p>
         )}
       </div>
-    </div>
+    </Link>
   );
 }
 

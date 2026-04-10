@@ -12,7 +12,7 @@ const ShopBreadCrump = ({
   return (
     <div className={`${isCentered ? "bg-white" : "bg-[#FAFAFA]"}`}>
       <div
-        className={`max-w-section mx-auto px-8 py-12 md:py-6 flex flex-col 
+        className={`max-w-section mx-auto px-8 py-12 md:py-8 flex flex-col 
         ${
           isCentered
             ? "items-center text-center"
@@ -25,7 +25,7 @@ const ShopBreadCrump = ({
             className={`flex flex-col ${isCentered ? "items-center" : "items-start"}`}
           >
             {isCentered && subtitle && (
-              <h5 className="text-slate-500 font-bold text-base mb-4 uppercase tracking-wider">
+              <h5 className="text-[slate-500] font-bold text-base mb-4 uppercase tracking-wider">
                 {subtitle}
               </h5>
             )}

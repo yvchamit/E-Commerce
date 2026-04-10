@@ -2,7 +2,6 @@ import { useState } from "react";
 import { FaChevronDown, FaRegHeart, FaUser, FaTimes } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
 import { RiShoppingCart2Line } from "react-icons/ri";
-import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { cn } from "../../lib/mergeClass";
 import BtnContact from "../../components/BtnContact";
 import MobileMenu from "../Header/MobileMenu";
@@ -87,11 +86,11 @@ export default function Navbar({ page, variant, maxWidth, isGray, showIcon }) {
                 <BtnContact showIcon={showIcon}>Become a member</BtnContact>
               </div>
             ) : (
-              <DesktopActions /> /* Bu kısmı da aşağıda küçük bir alt bileşen yaptık */
+              <DesktopActions />
             )}
           </div>
 
-          {/* Mobil İkonlar ve Hamburger (Mevcut kodun aynısı buraya gelecek) */}
+          
           <MobileActions
             isCorporate={isCorporate}
             isMenuOpen={isMenuOpen}
@@ -104,7 +103,7 @@ export default function Navbar({ page, variant, maxWidth, isGray, showIcon }) {
   );
 }
 
-// Yardımcı Alt Bileşen (Kod kalabalığını önlemek için)
+
 function DesktopActions() {
   return (
     <div className="flex items-center gap-6">

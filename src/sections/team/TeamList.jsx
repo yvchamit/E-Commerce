@@ -17,18 +17,15 @@ const TeamList = ({
   showDescription = false,
   title = "Meet Our Team",
 }) => {
-  // Gönderilen length değerine göre yeni bir liste kopyası oluşturuyoruz
   const displayList = teamMembers.slice(0, length);
 
   return (
     <section className="py-20 px-4 max-w-section mx-auto">
-      {/* Başlık ve Şartlı Açıklama Alanı */}
       <div className="text-center mb-8 md:mb-16 flex flex-col items-center gap-4">
         <h2 className="text-4xl font-bold text-[#252B42] mx-auto max-w-60 md:max-w-112.5">
           {title}
         </h2>
 
-        {/* showDescription true ise bu paragraf görünür */}
         {showDescription && (
           <p className="text-[#737373] text-sm font-medium max-w-60 md:max-w-112.5 leading-relaxed">
             Problems trying to resolve the conflict between the two major realms
@@ -37,7 +34,6 @@ const TeamList = ({
         )}
       </div>
 
-      {/* Kartların Listelendiği Grid */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-x-0 gap-y-12">
         {displayList.map((member) => (
           <TeamCard

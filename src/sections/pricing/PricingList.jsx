@@ -14,7 +14,6 @@ const PricingList = () => {
   return (
     <section className="bg-[#FAFAFA] py-20">
       <div className="max-w-section mx-auto px-8 md:px-0">
-        {/* Başlık ve Switch Kısmı */}
         <div className="text-center mb-20">
           <h2 className="text-4xl font-bold text-[#252B42] mb-4">Pricing</h2>
           <p className="text-[#737373] text-sm mb-12 max-w-112.5 mx-auto font-medium">
@@ -22,7 +21,6 @@ const PricingList = () => {
             of Classical physics...
           </p>
 
-          {/* Switch ve Senin "Save 25%" Yapın */}
           <div className="flex items-center justify-center gap-4">
             <span
               className={`font-bold transition-colors ${!isYearly ? "text-[#252B42]" : "text-[#737373]"}`}
@@ -44,7 +42,6 @@ const PricingList = () => {
               Yearly
             </span>
 
-            {/* Senin eklediğin dinamik class yapısı */}
             <span
               className={
                 isYearly ? "pricing-save-active" : "pricing-save-passive"
@@ -55,10 +52,7 @@ const PricingList = () => {
           </div>
         </div>
 
-        {/* KARTLARIN DİZİLDİĞİ YER (GRID ÇÖZÜMÜ) */}
-        {/* md:grid-cols-3 ve items-end kullanarak altları zemine çiviliyoruz */}
         <div className="grid grid-cols-1 md:grid-cols-3 items-end gap-8 md:gap-1">
-          {/* Sol Kart */}
           <div className="flex w-full">
             <PricingCard
               plan="FREE"
@@ -70,7 +64,6 @@ const PricingList = () => {
             />
           </div>
 
-          {/* Orta Kart (Öne Çıkan) */}
           <div className="flex w-full">
             <PricingCard
               plan="STANDARD"
@@ -83,7 +76,6 @@ const PricingList = () => {
             />
           </div>
 
-          {/* Sağ Kart */}
           <div className="flex w-full">
             <PricingCard
               plan="PREMIUM"

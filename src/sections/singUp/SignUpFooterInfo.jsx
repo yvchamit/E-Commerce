@@ -5,16 +5,13 @@ export default function SignUpFooterInfo() {
     <>
       <section className="bg-[#2A7CC7] text-white py-16 px-8 md:px-0">
         <div className="max-w-section mx-auto flex flex-col gap-12">
-          {/* Grid yapısını 4 sütun olarak koruyoruz */}
           <div className="grid grid-cols-1 md:grid-cols-4 gap-10 text-left">
-            {/* 1. Sütun: Get In Touch (2 Sütunluk yer kaplıyor) */}
             <div className="md:col-span-2 flex flex-col gap-5">
               <h3 className="text-2xl font-bold tracking-tight">
                 Get In Touch
               </h3>
               <p className="text-sm font-medium leading-6 opacity-90 max-w-md">
                 {" "}
-                {/* max-w-55 yerine max-w-md metnin yayılması için daha iyi */}
                 the quick fox jumps over the lazy dog
               </p>
               <div className="flex gap-5">
@@ -30,7 +27,6 @@ export default function SignUpFooterInfo() {
               </div>
             </div>
 
-            {/* 2. Sütun: Company Info (1 Sütunluk yer kaplıyor) */}
             <div className="md:col-span-1 flex flex-col gap-5">
               <h3 className="text-2xl font-bold tracking-tight">
                 Company info
@@ -45,7 +41,6 @@ export default function SignUpFooterInfo() {
               </ul>
             </div>
 
-            {/* 3. Sütun: Features (1 Sütunluk yer kaplıyor) */}
             <div className="md:col-span-1 flex flex-col gap-5">
               <h3 className="text-2xl font-bold tracking-tight">Features</h3>
               <ul className="flex flex-col gap-3 text-sm font-bold">

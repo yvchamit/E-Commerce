@@ -15,14 +15,11 @@ function Storyteller() {
             We know how large objects will act, but things on a small scale.
           </p>
 
-          {/* Buton Grubu: Mobilde alt alta ve ortalı, masaüstünde yan yana */}
           <div className="flex flex-col items-center sm:flex-row gap-4 w-full sm:w-auto">
-            {/* BUY NOW: Mobilde Mavi (#23A6F0), Masaüstünde Yeşil (#2DC071) */}
             <button className="w-fit px-10 py-4 bg-[#23A6F0] md:bg-[#2DC071] text-white font-bold rounded-md hover:opacity-90 transition-all text-sm uppercase whitespace-nowrap">
               BUY NOW
             </button>
 
-            {/* READ MORE: Mobilde Mavi Border, Masaüstünde Yeşil Border */}
             <button className="w-fit px-10 py-4 border border-[#23A6F0] text-[#23A6F0] md:border-[#2DC071] md:text-[#2DC071] font-bold rounded-md hover:bg-gray-50 transition-all text-sm uppercase whitespace-nowrap">
               READ MORE
             </button>

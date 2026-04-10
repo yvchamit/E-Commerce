@@ -1,23 +1,27 @@
-const CategoryCard = ({ title, count, img }) => {
+import { Link } from "react-router-dom";
+
+export default function CategoryCard({ cat }) {
+  const gender = cat.gender === "k" ? "kadin" : "erkek";
+  const categoryName = cat.code.split(":")[1];
+
   return (
-    <div className="relative group overflow-hidden cursor-pointer aspect-3/4 md:aspect-[1/1.2]">
+    <Link
+      to={`/shop/${gender}/${categoryName}/${cat.id}`}
+      className="relative h-55 group overflow-hidden cursor-pointer shadow-md"
+    >
       <img
-        src={img}
-        alt={title}
-        className="absolute inset-0 w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
+        src={cat.img}
+        alt={cat.title}
+        className="w-full h-full object-cover transition-transform duration-500 group-hover:scale-110"
       />
-
-      <div className="absolute inset-0 bg-black/25 group-hover:bg-black/40 transition-colors duration-300" />
-
-      <div className="relative h-full flex flex-col items-center justify-center text-white text-center p-4 gap-4">
-        <h5 className="font-bold text-base tracking-wide uppercase">{title}</h5>
-        <span className="text-sm font-semibold opacity-90">{count} Items</span>
+      <div className="absolute inset-0 bg-black/25 flex flex-col items-center justify-center text-white transition-colors group-hover:bg-black/40">
+        <h4 className="font-bold text-base uppercase">{cat.title}</h4>
+        <p className="text-sm font-normal font-montserrat">
+          Rating: {cat.rating}
+        </p>
       </div>
-    </div>
+    </Link>
   );
-};
-
-export default CategoryCard;
-
+}
 
 /* Mobil icin: flex overflow-x-auto snap-x pb-4 */

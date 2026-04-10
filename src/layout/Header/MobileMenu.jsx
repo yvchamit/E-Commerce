@@ -14,7 +14,6 @@ export default function MobileMenu({ isOpen, type, setIsOpen }) {
   const isEcomFull = !isHome && ["shop", "product"].includes(p);
   //const links = isHome ? navConfig.auth : navConfig.home;
 
-  // Senaryona göre navConfig'den doğru listeyi seçiyoruz
   const links = isEcomFull ? navConfig.home : navConfig.auth;
 
   return (

@@ -10,12 +10,10 @@ const FreeTrial = () => {
   return (
     <section className="py-20 px-4 bg-white">
       <div className="max-w-150 mx-auto text-center flex flex-col items-center">
-        {/* Başlık */}
         <h2 className="text-4xl font-bold text-[#252B42] mb-6 leading-tight">
           Start your<br className="block md:hidden" />14 days free trial
         </h2>
 
-        {/* Açıklama Metni */}
         <p className="text-slate-500 text-sm mb-8 max-w-100">
           Met minim Mollie non desert Alamo est sit cliquey dolor do met sent.
           RELIT official consequent.
@@ -24,7 +22,6 @@ const FreeTrial = () => {
           Try it free now
         </BtnContact>
 
-        {/* Sosyal Medya İkonları */}
         <div className="flex space-x-8 text-3xl pt-8">
           <a
             href="#"

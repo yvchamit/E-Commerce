@@ -27,7 +27,6 @@ const Clients = ({
   return (
     <section className="bg-[#FAFAFA]">
       <div className="max-w-section mx-auto py-12 px-8 md:px-0">
-        {/* Başlık ve Açıklama Alanı: Sadece prop varsa render edilir */}
         {(title || description) && (
           <div className="text-center mb-14 max-w-150 mx-auto">
             {title && (
@@ -43,7 +42,6 @@ const Clients = ({
           </div>
         )}
 
-        {/* Logo Grid Yapısı */}
         <div className="grid grid-cols-1 sm:grid-cols-3 lg:grid-cols-6 gap-12 items-center justify-items-center">
           {clients.map((client) => (
             <div

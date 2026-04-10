@@ -1,14 +1,15 @@
+import { useSelector } from "react-redux"; // Redux bağlantısı
 import Infobar from "./Infobar";
 import Navbar from "./Navbar";
 
 export default function Header({ page = "home", showIcon }) {
-  const p = page.toLowerCase();
+  const user = useSelector((state) => state.client.user);
 
+  const p = page.toLowerCase();
   const isCorporate = ["about", "contact", "team", "pricing", "auth"].includes(
     p,
   );
   const isEcommerce = ["home", "shop", "product", "product-detail"].includes(p);
-
 
   const maxWidth = p === "home" ? "max-w-page" : "max-w-section";
   const variant = isCorporate ? "auth" : "default";
@@ -28,6 +29,7 @@ export default function Header({ page = "home", showIcon }) {
         maxWidth={maxWidth}
         isGray={false}
         showIcon={showIcon}
+        user={user}
       />
     </header>
   );

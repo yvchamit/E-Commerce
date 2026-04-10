@@ -19,8 +19,8 @@ export default function BlogCard({
             alt={title}
             className={cn(
               "w-full object-cover object-center",
-              "aspect-square", // Mobil: Kare (1:1)
-              "md:aspect-video", // Masaüstü: Yatay (16:9)
+              "aspect-square",
+              "md:aspect-video",
             )}
           />
         </div>

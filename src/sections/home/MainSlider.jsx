@@ -32,7 +32,7 @@ function MainSlider() {
             <h1 className="text-5xl md:text-[58px] font-bold leading-tight uppercase">
               {slides[activeSlide].title}
             </h1>
-            <p className="text-xl max-w-sm opacity-90 p-8 md:px-0 color-[#FAFAFA]">
+            <p className="text-xl max-w-sm opacity-90 p-8 md:px-0 text-[#FAFAFA]">
               {slides[activeSlide].description}
             </p>
             <button className="bg-[#2DC071] px-10 py-4 rounded-md text-2xl font-bold hover:scale-105 transition-all shadow-lg uppercase inline-block w-fit">

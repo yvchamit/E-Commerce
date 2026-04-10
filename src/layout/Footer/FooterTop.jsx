@@ -8,7 +8,6 @@ function FooterTop({ isGray = false }) {
       <div className="footer-top-content">
         <h1 className="text-2xl font-bold text-[#252B42]">Bandage</h1>
 
-        {/* Mobilde sola yaslı, masaüstünde sağa/merkeze hizalı */}
         <div className="flex gap-5 text-[#23A6F0]">
           <SocialIcon href="#" Icon={FaFacebook} />
           <SocialIcon href="#" Icon={FaInstagram} />
@@ -19,7 +18,6 @@ function FooterTop({ isGray = false }) {
   );
 }
 
-// Sosyal medya ikonları için küçük bir yardımcı bileşen (Opsiyonel)
 const SocialIcon = ({ href, Icon }) => (
   <a
     href={href}

@@ -1,4 +1,26 @@
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
+
 const EditorsPick = () => {
+  const { categories } = useSelector((state) => state.product);
+
+  const getCatId = (gender, titleKeyword) => {
+    const cat = categories.find(
+      (c) =>
+        c.gender === gender &&
+        c.title.toLowerCase().includes(titleKeyword.toLowerCase()),
+    );
+
+    if (cat) return cat.id;
+    const firstGenderCat = categories.find((c) => c.gender === gender);
+    return firstGenderCat ? firstGenderCat.id : "";
+  };
+
+  const menLink = `/shop/m/erkek-giyim/${getCatId("m", "Kıyafet")}`;
+  const womenLink = `/shop/k/kadin-giyim/${getCatId("k", "Kıyafet")}`;
+  const accLink = `/shop/k/aksesuar/${getCatId("k", "Aksesuar")}`;
+  const kidsLink = `/shop/k/cocuk/${getCatId("k", "Çocuk")}`;
+
   return (
     <section className="bg-[#FAFAFA]">
       <div className="max-w-section mx-auto py-20 px-8">
@@ -12,54 +34,70 @@ const EditorsPick = () => {
         </div>
 
         <div className="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-4 gap-8 h-auto md:h-125">
-          <div className="md:col-span-2 relative group overflow-hidden cursor-pointer h-125 md:h-full">
+          <Link
+            to={menLink}
+            className="md:col-span-2 relative group overflow-hidden cursor-pointer h-125 md:h-full block"
+          >
             <div className="w-full h-full bg-gray-200 group-hover:scale-105 transition-transform duration-500">
               <img
                 src="/image/editorsMen.jpg"
                 className="object-cover w-full h-full"
+                alt="Men"
               />
             </div>
-            <button className="absolute bottom-8 left-8 bg-white px-12 py-3 font-bold text-[#252B42] hover:bg-[#23A6F0] hover:text-white transition-colors uppercase shadow-md">
+            <span className="absolute bottom-8 left-8 bg-white px-12 py-3 font-bold text-[#252B42] group-hover:bg-[#23A6F0] group-hover:text-white transition-colors uppercase shadow-md">
               MEN
-            </button>
-          </div>
+            </span>
+          </Link>
 
-          <div className="md:col-span-1 relative group overflow-hidden cursor-pointer h-125 md:h-full">
+          <Link
+            to={womenLink}
+            className="md:col-span-1 relative group overflow-hidden cursor-pointer h-125 md:h-full block"
+          >
             <div className="w-full h-full bg-gray-300 group-hover:scale-105 transition-transform duration-500">
               <img
                 src="/image/editorsWomen.jpg"
                 className="object-cover w-full h-full"
+                alt="Women"
               />
             </div>
-            <button className="absolute bottom-8 left-8 bg-white px-8 py-3 font-bold text-[#252B42] hover:bg-[#23A6F0] hover:text-white transition-colors uppercase shadow-md">
+            <span className="absolute bottom-8 left-8 bg-white px-8 py-3 font-bold text-[#252B42] group-hover:bg-[#23A6F0] group-hover:text-white transition-colors uppercase shadow-md">
               WOMEN
-            </button>
-          </div>
+            </span>
+          </Link>
 
           <div className="md:col-span-1 flex flex-col gap-5 h-full">
-            <div className="relative h-60 group overflow-hidden cursor-pointer">
+            <Link
+              to={accLink}
+              className="relative h-60 group overflow-hidden cursor-pointer block"
+            >
               <div className="w-full h-full bg-gray-400 group-hover:scale-105 transition-transform duration-500">
                 <img
                   src="/image/editorsAccess.jpg"
                   className="object-cover w-full h-full"
+                  alt="Accessories"
                 />
               </div>
-              <button className="absolute bottom-5 left-5 bg-white px-6 py-2 font-bold text-[#252B42] hover:bg-[#23A6F0] hover:text-white transition-colors uppercase shadow-md text-sm">
+              <span className="absolute bottom-5 left-5 bg-white px-6 py-2 font-bold text-[#252B42] group-hover:bg-[#23A6F0] group-hover:text-white transition-colors uppercase shadow-md text-sm">
                 ACCESSORIES
-              </button>
-            </div>
+              </span>
+            </Link>
 
-            <div className="relative h-60 group overflow-hidden cursor-pointer">
+            <Link
+              to={kidsLink}
+              className="relative h-60 group overflow-hidden cursor-pointer block"
+            >
               <div className="w-full h-full bg-gray-500 group-hover:scale-105 transition-transform duration-500">
                 <img
                   src="/image/editorsKids.jpg"
                   className="object-cover w-full h-full"
+                  alt="Kids"
                 />
               </div>
-              <button className="absolute bottom-5 left-5 bg-white px-10 py-2 font-bold text-[#252B42] hover:bg-[#23A6F0] hover:text-white transition-colors uppercase shadow-md text-sm">
+              <span className="absolute bottom-5 left-5 bg-white px-10 py-2 font-bold text-[#252B42] group-hover:bg-[#23A6F0] group-hover:text-white transition-colors uppercase shadow-md text-sm">
                 KIDS
-              </button>
-            </div>
+              </span>
+            </Link>
           </div>
         </div>
       </div>

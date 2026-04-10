@@ -26,7 +26,6 @@ export default function VisitOffice() {
     <section className="bg-[#FAFAFA] py-20 px-8">
       <div className="max-w-section mx-auto">
         
-        {/* ÜST BAŞLIK ALANI */}
         <div className="text-center mb-20 flex flex-col gap-4">
           <h6 className="font-bold text-sm text-[#252B42] tracking-wider uppercase">
             VISIT OUR OFFICE
@@ -36,7 +35,6 @@ export default function VisitOffice() {
           </h2>
         </div>
 
-        {/* KARTLAR - Responsive Grid */}
         <div className="grid grid-cols-1 md:grid-cols-3 items-center">
           
           <OfficeCard 

@@ -5,7 +5,6 @@ const initialState = {
 const cartReducer = (state = initialState, action) => {
   switch (action.type) {
     case "ADD_TO_CART": {
-      // <--- Süslü parantez başladığı yer
       const existingProductIndex = state.cart.findIndex(
         (item) => item.product.id === action.payload.id,
       );
@@ -26,10 +25,9 @@ const cartReducer = (state = initialState, action) => {
           { count: 1, checked: true, product: action.payload },
         ],
       };
-    } // <--- Süslü parantez bittiği yer
+    }
 
     case "REMOVE_FROM_CART": {
-      // <--- Burada da kullanmak güvenlidir
       return {
         ...state,
         cart: state.cart.filter((item) => item.product.id !== action.payload),
@@ -41,7 +39,7 @@ const cartReducer = (state = initialState, action) => {
         ...state,
         cart: state.cart.map((item) =>
           item.product.id === action.payload.productId
-            ? { ...item, count: Math.max(1, action.payload.count) } // 1'in altına düşmesin
+            ? { ...item, count: Math.max(1, action.payload.count) }
             : item,
         ),
       };
@@ -54,6 +52,17 @@ const cartReducer = (state = initialState, action) => {
             ? { ...item, checked: !item.checked }
             : item,
         ),
+      };
+    }
+
+    case "CLEAR_CART": {
+      const remainingItems = state.cart.filter(
+        (item) => item.checked === false,
+      );
+      localStorage.setItem("cart", JSON.stringify(remainingItems));
+      return {
+        ...state,
+        cart: remainingItems,
       };
     }
 

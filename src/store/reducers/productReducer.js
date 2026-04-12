@@ -39,13 +39,11 @@ export const productReducer = (state = initialProductState, action) => {
     case SET_FILTER:
       return { ...state, filter: action.payload };
     case TOGGLE_WISHLIST: {
-      // Ürün zaten favorilerde mi kontrol et
       const itemExists = state.wishlist.find(
         (item) => item.id === action.payload.id,
       );
 
       if (itemExists) {
-        // Varsa listeden çıkar
         return {
           ...state,
           wishlist: state.wishlist.filter(
@@ -53,7 +51,6 @@ export const productReducer = (state = initialProductState, action) => {
           ),
         };
       } else {
-        // Yoksa listeye ekle
         return {
           ...state,
           wishlist: [...state.wishlist, action.payload],
@@ -65,7 +62,6 @@ export const productReducer = (state = initialProductState, action) => {
   }
 };
 
-// Action Creators
 export const setCategories = (categories) => ({
   type: SET_CATEGORIES,
   payload: categories,

@@ -78,6 +78,10 @@ export default function BlogPage() {
           ))}
         </div>
       </main>
+      <Clients
+        description="Trusted By Over 4000 Big Companies"
+        descriptionColor="text-[#252B42]"
+      />
       <Footer />
     </>
   );

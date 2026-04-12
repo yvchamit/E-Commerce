@@ -48,19 +48,17 @@ export default function SignUpForm() {
   const handleChange = (event) => {
     const { name, value } = event.target;
 
-    // 1. Önce form verisini güncelleyelim
     setFormData((prev) => ({ ...prev, [name]: value }));
 
-    // 2. Hata kontrolünü değişkene alalım (Temiz kod)
     let isInvalid = false;
     const trimmedValue = value.trim();
 
     if (name === "email") {
-      isInvalid = !validateEmail(value); // Email geçersizse isInvalid = true olur
+      isInvalid = !validateEmail(value);
     } else if (name === "password") {
-      isInvalid = trimmedValue.length < 8; // 8'den küçükse hata var
+      isInvalid = trimmedValue.length < 8;
     } else if (name === "name") {
-      isInvalid = trimmedValue.length < 3; // 3'ten küçükse hata var
+      isInvalid = trimmedValue.length < 3;
     }
 
     setErrors((prevErrors) => ({
@@ -72,40 +70,31 @@ export default function SignUpForm() {
   const handleSubmit = async (e) => {
     e.preventDefault();
 
-    // 1. Önce formda halihazırda bir hata var mı diye kontrol edelim (Frontend Guard)
     const hasErrors = Object.values(errors).some((error) => error === true);
     if (hasErrors) {
       alert("Lütfen formdaki hataları düzeltiniz.");
       return;
     }
 
-    // 2. URL'i moda göre belirliyoruz
     const endpoint = isLogin ? "/login" : "/signup";
     const url = `https://workintech-fe-ecommerce.onrender.com${endpoint}`;
 
     try {
       const response = await axios.post(url, formData);
 
-      // 3. Başarılı olma durumu (200 OK veya 201 Created)
       if (response.status === 200 || response.status === 201) {
         if (isLogin) {
-          // GİRİŞ BAŞARILI
           localStorage.setItem("token", response.data.token);
           alert("Giriş başarılı! Mağazaya yönlendiriliyorsunuz.");
-          // Burada history.push("/") ile ana sayfaya yönlendirme yapabilirsin.
         } else {
-          // KAYIT BAŞARILI
           alert("Kaydınız oluşturuldu! Şimdi giriş yapabilirsiniz.");
-          setIsLogin(true); // Modu otomatik olarak Login'e çekiyoruz
+          setIsLogin(true);
         }
 
-        // 4. BAŞARI SONRASI TEMİZLİK
-        setFormData(initialForm); // Form kutularını boşalt
-        setErrors({}); // Varsa ekrandaki kırmızı hata yazılarını sil
+        setFormData(initialForm);
+        setErrors({});
       }
     } catch (err) {
-      // 5. HATA YÖNETİMİ
-      // API'den dönen spesifik bir hata mesajı varsa onu göster, yoksa genel mesaj ver.
       const errorMessage =
         err.response?.data?.message ||
         "Bir hata oluştu, lütfen bilgilerinizi kontrol edin.";

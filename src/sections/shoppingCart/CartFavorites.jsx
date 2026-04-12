@@ -48,6 +48,7 @@ const CartFavorites = () => {
       <hr className="border-[#ECECEC] mb-12 max-w-section mx-auto" />
 
       <div className="max-w-page mx-auto pb-16 px-8 md:px-16">
+        {/* --- 1. TAB: WISHLIST (LİSTE DÜZENİ) --- */}
         {activeTab === "wishlist" && (
           <div className="space-y-4 animate-fadeIn">
             {wishlist.length > 0 ? (
@@ -112,6 +113,7 @@ const CartFavorites = () => {
           </div>
         )}
 
+        {/* --- 2. TAB: RECOMMENDED (GRID DÜZENİ) --- */}
         {activeTab === "recommended" && (
           <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 animate-fadeIn">
             {recommendedProducts.map((product) => (
@@ -130,6 +132,7 @@ const CartFavorites = () => {
                   />
                 </Link>
 
+                {/* Wishlist İkonu (Recommendations için) */}
                 <button
                   onClick={() => dispatch(toggleWishlist(product))}
                   className="absolute top-6 right-6 p-2 bg-white rounded-full shadow-md text-gray-400 hover:text-red-500 transition-colors"

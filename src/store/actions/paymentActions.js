@@ -26,10 +26,10 @@ export const saveCard = (cardData) => (dispatch) => {
 
 export const deleteCard = (cardId) => (dispatch) => {
   return axiosInstance
-    .delete(`/user/card/${cardId}`) // Dikkat: cardId'nin doğru geldiğinden emin ol
+    .delete(`/user/card/${cardId}`)
     .then(() => {
       console.log("Kart başarıyla silindi");
-      dispatch(fetchCards()); // Listeyi yenile
+      dispatch(fetchCards());
     })
     .catch((err) => {
       console.error(

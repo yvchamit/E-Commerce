@@ -18,7 +18,6 @@ export default function Dropdown({ title, links, children }) {
                    group-hover:opacity-100 group-hover:visible group-hover:translate-y-0
                    transition-all duration-300 z-100"
       >
-        {/* ÖNEMLİ DEĞİŞİKLİK BURADA: */}
         {children ? (
           <div className="p-0">{children}</div>
         ) : (

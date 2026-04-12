@@ -1,3 +1,5 @@
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
+
 function Storyteller() {
   return (
     <section className="bg-white">
@@ -16,13 +18,14 @@ function Storyteller() {
           </p>
 
           <div className="flex flex-col items-center sm:flex-row gap-4 w-full sm:w-auto">
-            <button className="w-fit px-10 py-4 bg-[#23A6F0] md:bg-[#2DC071] text-white font-bold rounded-md hover:opacity-90 transition-all text-sm uppercase whitespace-nowrap">
+            <Link
+            to="/shop" className="w-fit px-10 py-4 bg-[#23A6F0] md:bg-[#2DC071] text-white font-bold rounded-md hover:opacity-90 transition-all text-sm uppercase whitespace-nowrap">
               BUY NOW
-            </button>
+            </Link>
 
-            <button className="w-fit px-10 py-4 border border-[#23A6F0] text-[#23A6F0] md:border-[#2DC071] md:text-[#2DC071] font-bold rounded-md hover:bg-gray-50 transition-all text-sm uppercase whitespace-nowrap">
+            <Link to="/blog" className="w-fit px-10 py-4 border border-[#23A6F0] text-[#23A6F0] md:border-[#2DC071] md:text-[#2DC071] font-bold rounded-md hover:bg-gray-50 transition-all text-sm uppercase whitespace-nowrap">
               READ MORE
-            </button>
+            </Link>
           </div>
         </div>
 

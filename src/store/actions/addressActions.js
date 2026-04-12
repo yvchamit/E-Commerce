@@ -24,7 +24,7 @@ export const fetchAddresses = () => (dispatch) => {
 
 export const addAddress = (addressData) => (dispatch) => {
   return axiosInstance.post("/user/address", addressData).then((res) => {
-    dispatch(fetchAddresses()); // Listeyi yenile
+    dispatch(fetchAddresses());
   });
 };
 

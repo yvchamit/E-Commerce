@@ -1,17 +1,36 @@
 import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
+import { getYear } from "date-fns";
 import { saveCard } from "../../store/actions/paymentActions";
 
 const CardForm = ({ onClose }) => {
   const {
     register,
     handleSubmit,
+    setValue,
+    watch,
     formState: { errors },
   } = useForm({
     mode: "onBlur",
+    defaultValues: {
+      expire_month: "",
+      expire_year: "",
+    },
   });
 
   const dispatch = useDispatch();
+
+  const months = Array.from({ length: 12 }, (_, i) =>
+    (i + 1).toString().padStart(2, "0"),
+  );
+  const currentYear = getYear(new Date());
+  const years = Array.from({ length: 15 }, (_, i) => currentYear + i);
+
+  const handleCardNoChange = (e) => {
+    let value = e.target.value.replace(/\D/g, "");
+    let formattedValue = value.replace(/(\d{4})(?=\d)/g, "$1 ");
+    setValue("card_no", formattedValue);
+  };
 
   const onSubmit = (data) => {
     const payload = {
@@ -23,30 +42,29 @@ const CardForm = ({ onClose }) => {
 
     dispatch(saveCard(payload))
       .then(() => onClose())
-      .catch((err) => alert("Kart kaydedilirken bir hata oluştu."));
+      .catch(() => alert("Kart kaydedilirken bir hata oluştu."));
   };
 
   return (
     <div className="fixed inset-0 bg-black/60 backdrop-blur-sm flex items-center justify-center z-100 p-4">
-      <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl">
-        <h2 className="text-xl font-bold mb-6 text-slate-800">
+      <div className="bg-white rounded-2xl p-8 max-w-md w-full shadow-2xl animate-in fade-in zoom-in duration-300">
+        <h2 className="text-xl font-bold mb-6 text-slate-800 text-center">
           Yeni Kart Ekle
         </h2>
 
         <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
-          {/* Kart Üzerindeki İsim */}
           <div>
-            <label className="text-xs font-bold text-slate-500 uppercase">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Kart Üzerindeki İsim
             </label>
             <input
               {...register("name_on_card", {
-                required: "Kart üzerindeki isim zorunludur",
-                minLength: { value: 3, message: "En az 3 karakter olmalı" },
+                required: "İsim zorunludur",
+                minLength: { value: 3, message: "En az 3 karakter" },
               })}
-              className={`w-full p-3 border rounded-lg mt-1 outline-none transition-colors ${
+              className={`w-full p-3 border rounded-lg mt-1 outline-none transition-all ${
                 errors.name_on_card
-                  ? "border-red-500 focus:border-red-500"
+                  ? "border-red-500"
                   : "border-slate-200 focus:border-[#23A6F0]"
               }`}
               placeholder="Ad Soyad"
@@ -58,26 +76,26 @@ const CardForm = ({ onClose }) => {
             )}
           </div>
 
-          {/* Kart Numarası */}
           <div>
-            <label className="text-xs font-bold text-slate-500 uppercase">
+            <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
               Kart Numarası
             </label>
             <input
               {...register("card_no", {
                 required: "Kart numarası zorunludur",
                 pattern: {
-                  value: /^[0-9\s]{16,19}$/,
-                  message: "Geçerli bir kart numarası giriniz (16 hane)",
+                  value: /^[\d\s]{19}$/,
+                  message: "16 haneli kart numarasını tamamlayın",
                 },
               })}
-              className={`w-full p-3 border rounded-lg mt-1 outline-none transition-colors ${
+              onChange={handleCardNoChange}
+              maxLength="19"
+              className={`w-full p-3 border rounded-lg mt-1 outline-none font-mono transition-all ${
                 errors.card_no
-                  ? "border-red-500 focus:border-red-500"
+                  ? "border-red-500"
                   : "border-slate-200 focus:border-[#23A6F0]"
               }`}
-              placeholder="1234 1234 1234 1234"
-              maxLength="19"
+              placeholder="0000 0000 0000 0000"
             />
             {errors.card_no && (
               <p className="text-red-500 text-[10px] mt-1 font-semibold">
@@ -86,70 +104,65 @@ const CardForm = ({ onClose }) => {
             )}
           </div>
 
-          {/* Ay ve Yıl Yan Yana */}
           <div className="flex gap-4">
             <div className="flex-1">
-              <label className="text-xs font-bold text-slate-500 uppercase">
-                Ay (MM)
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Ay
               </label>
-              <input
-                type="number"
-                {...register("expire_month", {
-                  required: "AA",
-                  min: { value: 1, message: "1-12 arası" },
-                  max: { value: 12, message: "1-12 arası" },
-                })}
-                className={`w-full p-3 border rounded-lg mt-1 outline-none transition-colors ${
+              <select
+                {...register("expire_month", { required: "Seçiniz" })}
+                className={`w-full p-3 border rounded-lg mt-1 outline-none bg-white cursor-pointer ${
                   errors.expire_month
-                    ? "border-red-500 focus:border-red-500"
+                    ? "border-red-500"
                     : "border-slate-200 focus:border-[#23A6F0]"
                 }`}
-                placeholder="12"
-              />
-              {errors.expire_month && (
-                <p className="text-red-500 text-[10px] mt-1 font-semibold">
-                  {errors.expire_month.message}
-                </p>
-              )}
+              >
+                <option value="" disabled>
+                  AA
+                </option>
+                {months.map((m) => (
+                  <option key={m} value={m}>
+                    {m}
+                  </option>
+                ))}
+              </select>
             </div>
 
             <div className="flex-1">
-              <label className="text-xs font-bold text-slate-500 uppercase">
-                Yıl (YYYY)
+              <label className="text-xs font-bold text-slate-500 uppercase tracking-wider">
+                Yıl
               </label>
-              <input
-                type="number"
-                {...register("expire_year", {
-                  required: "YYYY",
-                  min: { value: 2024, message: "Geçersiz yıl" },
-                })}
-                className={`w-full p-3 border rounded-lg mt-1 outline-none transition-colors ${
+              <select
+                {...register("expire_year", { required: "Seçiniz" })}
+                className={`w-full p-3 border rounded-lg mt-1 outline-none bg-white cursor-pointer ${
                   errors.expire_year
-                    ? "border-red-500 focus:border-red-500"
+                    ? "border-red-500"
                     : "border-slate-200 focus:border-[#23A6F0]"
                 }`}
-                placeholder="2025"
-              />
-              {errors.expire_year && (
-                <p className="text-red-500 text-[10px] mt-1 font-semibold">
-                  {errors.expire_year.message}
-                </p>
-              )}
+              >
+                <option value="" disabled>
+                  YYYY
+                </option>
+                {years.map((y) => (
+                  <option key={y} value={y}>
+                    {y}
+                  </option>
+                ))}
+              </select>
             </div>
           </div>
 
-          {/* Butonlar */}
           <div className="flex gap-3 mt-8">
             <button
               type="button"
               onClick={onClose}
-              className="flex-1 py-3 font-bold text-slate-500 hover:text-slate-700 transition-colors"
+              className="flex-1 py-3 font-bold text-slate-500 hover:bg-slate-50 rounded-lg transition-colors"
             >
               İptal
             </button>
             <button
               type="submit"
-              className="flex-2 py-3 bg-[#23A6F0] text-white rounded-lg font-bold shadow-lg hover:bg-[#1a8cd3] active:scale-95 transition-all"
+              className="flex-2 py-3 bg-[#23A6F0] text-white rounded-lg font-bold shadow-md hover:bg-[#1a8cd3] active:scale-95 transition-all"
             >
               Kartı Kaydet
             </button>
@@ -159,5 +172,6 @@ const CardForm = ({ onClose }) => {
     </div>
   );
 };
+
 
 export default CardForm;

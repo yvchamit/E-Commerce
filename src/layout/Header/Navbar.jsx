@@ -16,8 +16,6 @@ import { logoutUser } from "../../store/actions/clientActions";
 import CartDropdown from "../../components/CartDropdown";
 import WishlistDropdown from "../../components/WishlistDropdown";
 
-
-
 export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
   const dispatch = useDispatch();
   const history = useHistory();
@@ -50,7 +48,7 @@ export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
   const totalItems = cart.reduce((total, item) => total + item.count, 0);
 
   const wishlist = useSelector((state) => state.product.wishlist);
-  const wishlistCount = wishlist.length;
+  //const wishlistCount = wishlist.length;
 
   return (
     <nav
@@ -67,17 +65,15 @@ export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
           isCorporate ? "px-8 md:px-0" : "px-8",
         )}
       >
-        {/* Logo ve Dinamik Linkler */}
         <div className="flex items-center gap-12 lg:gap-20">
           <Link to="/" className="text-2xl font-bold text-[#252B42]">
             Bandage
           </Link>
 
-          {/* Linkler */}
           <ul className="hidden md:flex items-center gap-5 text-[#737373] font-bold text-sm">
             {activeLinks.map((link, index) => (
               <li key={index}>
-                {/* 1. SHOP DROPDOWN (Mevcut yapın) */}
+                {/* 1. SHOP DROPDOWN */}
                 {link.title === "Shop" ? (
                   <Dropdown title="Shop">
                     <div className="flex p-8 gap-16 bg-white min-w-85">
@@ -121,24 +117,15 @@ export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
                 ) : link.title === "Pages" ? (
                   <Dropdown title="Pages">
                     <div className="w-44 bg-white rounded-md overflow-hidden shadow-lg">
-                      <Link
-                        to="/about"
-                        className="block px-6 py-3 text-sm text-[#737373] hover:bg-gray-50 hover:text-[#23A6F0] transition-colors"
-                      >
-                        About Us
-                      </Link>
-                      <Link
-                        to="/contact"
-                        className="block px-6 py-3 text-sm text-[#737373] hover:bg-gray-50 hover:text-[#23A6F0] transition-colors"
-                      >
-                        Contact
-                      </Link>
-                      <Link
-                        to="/team"
-                        className="block px-6 py-3 text-sm text-[#737373] hover:bg-gray-50 hover:text-[#23A6F0] transition-colors"
-                      >
-                        Team
-                      </Link>
+                      {link.dropdown?.map((subItem, subIndex) => (
+                        <Link
+                          key={subIndex}
+                          to={subItem.path}
+                          className="block px-6 py-3 text-sm text-[#737373] hover:bg-gray-50 hover:text-[#23A6F0] transition-colors"
+                        >
+                          {subItem.title}
+                        </Link>
+                      ))}
                     </div>
                   </Dropdown>
                 ) : (
@@ -151,7 +138,6 @@ export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
           </ul>
         </div>
 
-        {/* SAĞ: AKSİYONLAR */}
 
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-4 text-[#23A6F0]">
@@ -176,13 +162,15 @@ export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
                 }
               >
                 <div className="w-44 bg-white rounded-md overflow-hidden">
-                  {/* <Link
-                    to="/orders"
-                    className="block px-6 py-3 text-sm text-[#737373] hover:bg-gray-50 hover:text-[#23A6F0] transition-colors"
-                  >
-                    Orders
-                  </Link>
+                  {/* SİPARİŞLERİM LİNKİ AKTİFLEŞTİRİLDİ */}
                   <Link
+                    to="/previous-orders"
+                    className="block px-6 py-3 text-sm text-[#737373] hover:bg-gray-50 hover:text-[#23A6F0] transition-colors font-bold"
+                  >
+                    Previous Orders
+                  </Link>
+
+                  {/* <Link
                     to="/settings"
                     className="block px-6 py-3 text-sm text-[#737373] hover:bg-gray-50 hover:text-[#23A6F0] transition-colors"
                   >
@@ -201,10 +189,16 @@ export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
               </Dropdown>
             ) : isCorporate ? (
               <>
-                <Link to="/login" className="font-bold text-sm">
+                <Link
+                  to="/login"
+                  className="font-bold text-sm hover:text-[#23A6F0] transition-colors"
+                >
                   Login
                 </Link>
-                <BtnContact showIcon={showIcon}>Become a member</BtnContact>
+
+                <Link to="/signup">
+                  <BtnContact showIcon={showIcon}>Become a member</BtnContact>
+                </Link>
               </>
             ) : (
               <Link
@@ -234,15 +228,13 @@ export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
                   <CartDropdown />
                 </div>
 
-                {/* FAVORİ (HEART) BÖLÜMÜ - GÜNCELLENEN KISIM */}
+                {/* FAVORİ (HEART) BÖLÜMÜ */}
                 <div className="relative group flex items-center gap-1 p-2 hover:bg-gray-100 rounded-lg cursor-pointer transition-all">
                   <FaRegHeart
                     size={20}
                     className={"text-[#23A6F0] fill-[#23A6F0]"}
                   />
-                  <span
-                    className={`text-[12px] font-bold text-[#23A6F0]`}
-                  >
+                  <span className={`text-[12px] font-bold text-[#23A6F0]`}>
                     {wishlist.length}
                   </span>
 

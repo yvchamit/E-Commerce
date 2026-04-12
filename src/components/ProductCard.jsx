@@ -21,7 +21,7 @@ function ProductCard({
 
   const productNameSlug = name.toLowerCase().replace(/\s+/g, "-");
   const gender = product.gender === "m" ? "erkek" : "kadin";
-  const categoryName = "product"; // URL yapısı için genel isim
+  const categoryName = "product";
 
   const detailUrl = `/shop/${gender}/${categoryName}/${product.category_id}/${product.id}/${productNameSlug}`;
 

@@ -1,5 +1,5 @@
 import { LuRedo } from "react-icons/lu";
-import BtnContact from "../../components/BtnContact"; // Yolunu projene göre ayarla
+import BtnContact from "../../components/BtnContact";
 
 export default function TalkOffice() {
   return (

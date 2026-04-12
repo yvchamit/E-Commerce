@@ -22,8 +22,8 @@ export const navConfig = {
   ],
   auth: [
     { title: "Home", path: "/" },
-    { title: "Product", path: "/product-detail" },
+    { title: "Shop", path: "/shop", dropdown: SHOP_DROPDOWN },
     { title: "Pricing", path: "/pricing" },
-    { title: "Contact", path: "/contact" },
+    { title: "Pages", path: "/pages", dropdown: PAGES_DROPDOWN },
   ]
 };

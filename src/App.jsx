@@ -18,6 +18,7 @@ import ShoppingCartPage from "./pages/ShoppingCartPage";
 import ProtectedRoute from "./components/auth/ProtectedRoute";
 import OrderPage from "./pages/OrderPage";
 import OrderSuccessPage from "./pages/OrderSuccessPage";
+import OrderHistoryPage from "./pages/OrderHistoryPage";
 
 function App() {
   const dispatch = useDispatch();
@@ -27,14 +28,23 @@ function App() {
   }, [dispatch]);
 
   useEffect(() => {
-    dispatch(fetchCategories()); // Uygulama açılırken kategorileri çek
-    // ... diğer check işlemlerin (verifyToken vb.)
+    dispatch(fetchCategories());
   }, [dispatch]);
 
   return (
     <div className="font-sans text-[#252B42]">
       <main className="grow">
-        <ToastContainer />
+        <ToastContainer
+          position="top-right"
+          autoClose={2000}
+          hideProgressBar={false}
+          newestOnTop={true}
+          closeOnClick
+          rtl={false}
+          pauseOnHover
+          theme="colored"
+          limit={3}
+        />
         <Switch>
           <Route exact path="/" component={HomePage} />
           <Route path="/login" component={LoginPage} />
@@ -57,6 +67,11 @@ function App() {
 
           <ProtectedRoute path="/create-order" component={OrderPage} />
           <Route path="/order-success" exact component={OrderSuccessPage} />
+          <ProtectedRoute
+            path="/previous-orders"
+            exact
+            component={OrderHistoryPage}
+          />
 
           <Route path="/about" component={AboutPage} />
           <Route path="/contact" component={ContactPage} />

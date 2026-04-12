@@ -56,8 +56,7 @@ export const setTotalProductCount = (total) => ({
 });
 
 export const fetchProducts = (params = {}) => {
-  // Parametreleri obje olarak al
-  const { category, filter, sort, page = 1 } = params; // İçinden çek
+  const { category, filter, sort, page = 1 } = params;
 
   return (dispatch) => {
     dispatch(setFetchState("FETCHING"));
@@ -79,7 +78,7 @@ export const fetchProducts = (params = {}) => {
         dispatch(setFetchState("FETCHED"));
       })
       .catch((err) => {
-        console.error("API Hatası:", err); // Konsola bakarak hatayı görebilirsin
+        console.error("API Hatası:", err);
         dispatch(setFetchState("ERROR"));
       });
   };

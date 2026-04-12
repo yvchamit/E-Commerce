@@ -46,6 +46,7 @@ export const shoppingCartReducer = (state = initialCartState, action) => {
         ),
       };
     case CLEAR_CART:
+      localStorage.removeItem("cart");
       return {
         ...state,
         cart: [],
@@ -55,7 +56,6 @@ export const shoppingCartReducer = (state = initialCartState, action) => {
   }
 };
 
-// Action Creators
 export const setCart = (cart) => ({ type: SET_CART, payload: cart });
 export const setPayment = (payment) => ({
   type: SET_PAYMENT,

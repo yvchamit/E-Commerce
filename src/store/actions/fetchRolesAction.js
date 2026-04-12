@@ -1,9 +1,8 @@
-import axios from 'axios'; // Axios kullandığını varsayıyorum
+import axios from 'axios';
 
-export const fetchRolesAction = () => (dispatch, getState) => {
+export const fetchRolesAction = () => (dispatch, getState, setRoles) => {
   const { roles } = getState().client;
 
-  // Sadece roller boşsa (ihtiyaç varsa) tetikle
   if (roles.length === 0) {
     axios.get('https://api-your-endpoint.com/roles')
       .then(response => {

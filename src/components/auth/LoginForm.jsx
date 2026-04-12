@@ -5,14 +5,13 @@ import { loginUserAction } from "../../store/actions/clientActions";
 
 const LoginForm = () => {
   const [formData, setFormData] = useState({ email: "", password: "" });
-  const [rememberMe, setRememberMe] = useState(false); // Beni hatırla state'i
+  const [rememberMe, setRememberMe] = useState(false);
   const [loading, setLoading] = useState(false);
 
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
 
-  // Önceki sayfayı hatırla, yoksa ana sayfaya git
   const { from } = location.state || { from: { pathname: "/" } };
 
   const handleChange = (e) => {
@@ -36,6 +35,7 @@ const LoginForm = () => {
 
       history.push(from);
     } catch (err) {
+      console.error(err);
     } finally {
       setLoading(false);
     }

@@ -9,22 +9,18 @@ import { useParams } from "react-router-dom/cjs/react-router-dom.min";
 import { useEffect, useState } from "react";
 import axios from "axios";
 import { useDispatch, useSelector } from "react-redux";
-
-// ProductDetailsPage.jsx
-import { fetchProducts } from "../store/actions/productActions"; // Action yolunu kontrol et
+import { fetchProducts } from "../store/actions/productActions";
 
 function ProductDetailsPage() {
   const { productId } = useParams();
   const dispatch = useDispatch();
 
-  // Redux'tan ürünleri al
   const { productList } = useSelector((state) => state.product);
 
   const [product, setProduct] = useState(null);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    // 1. Tekil ürün detayını çek
     setLoading(true);
     axios
       .get(`https://workintech-fe-ecommerce.onrender.com/products/${productId}`)
@@ -37,7 +33,6 @@ function ProductDetailsPage() {
         setLoading(false);
       });
 
-    // 2. KRİTİK NOKTA: Eğer Redux'taki liste boşsa genel ürünleri de çek
     if (!productList || productList.length === 0) {
       dispatch(fetchProducts());
     }
@@ -45,7 +40,7 @@ function ProductDetailsPage() {
     window.scrollTo({
       top: 0,
       left: 0,
-      behavior: "smooth", // Yavaş ve yumuşak bir kayma efekti verir
+      behavior: "smooth",
     });
   }, [productId, dispatch]);
 

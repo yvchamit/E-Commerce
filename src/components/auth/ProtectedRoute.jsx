@@ -1,8 +1,7 @@
 import { Route, Redirect } from "react-router-dom";
-import { useSelector } from "react-redux";
 
 const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const token = localStorage.getItem("token"); // Veya Redux state'den çek
+  const token = localStorage.getItem("token");
 
   return (
     <Route

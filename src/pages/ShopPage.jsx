@@ -19,10 +19,9 @@ function ShopPage() {
 
   const queryParams = new URLSearchParams(location.search);
   const pageFromUrl = parseInt(queryParams.get("page")) || 1;
-  const { categoryId, categoryName, gender } = useParams();
+  const { categoryId } = useParams();
   const dispatch = useDispatch();
 
-  // Redux State
   const {
     productList = [],
     total = 0,
@@ -30,13 +29,11 @@ function ShopPage() {
     categories,
   } = useSelector((state) => state.product);
 
-  // State'ler
   const [filterText, setFilterText] = useState("");
   const [sortOption, setSortOption] = useState("");
   const [view, setView] = useState("grid");
-  const [currentPage, setCurrentPage] = useState(1); // Tek bir sayfa state'i yeterli
+  const [currentPage, setCurrentPage] = useState(1);
 
-  // Sabitler
   const LIMIT = 25;
   const totalPages = Math.ceil((total || 0) / LIMIT);
 
@@ -56,7 +53,7 @@ function ShopPage() {
     .slice(0, 5);
 
   const handlePageChange = (pageNumber) => {
-    console.log("Gidilecek Sayfa:", pageNumber); // Debug için
+    console.log("Gidilecek Sayfa:", pageNumber);
 
     if (history && history.push) {
       const searchParams = new URLSearchParams(location.search);

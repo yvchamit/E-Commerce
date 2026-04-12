@@ -1,8 +1,6 @@
-import React from "react";
-import { ChevronRight } from "lucide-react"; // Mavi chevron için
+import { ChevronRight } from "lucide-react";
 
 const PricingFAQ = () => {
-  // Soru ve Cevap Verisi
   const faqs = [
     {
       id: 1,

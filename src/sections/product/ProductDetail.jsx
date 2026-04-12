@@ -47,7 +47,6 @@ const ProductDetail = ({ product }) => {
   return (
     <div className="bg-[#FAFAFA] px-8 pb-8 font-sans text-[#252B42]">
       <div className="max-w-section mx-auto flex flex-col md:flex-row gap-12">
-        {/* SOL TARAF: GÖRSEL ALANI */}
         <div className="w-full md:w-1/2">
           <div className="relative group mb-4 h-112.5 overflow-hidden rounded-sm shadow-sm">
             <img
@@ -56,7 +55,6 @@ const ProductDetail = ({ product }) => {
               alt={product?.name}
             />
 
-            {/* Navigasyon Okları*/}
             {productImages.length > 1 && (
               <>
                 <button
@@ -75,7 +73,6 @@ const ProductDetail = ({ product }) => {
             )}
           </div>
 
-          {/* Thumbnail Listesi */}
           <div className="flex gap-4 overflow-x-auto pb-2">
             {productImages.map((img, index) => (
               <div
@@ -97,13 +94,11 @@ const ProductDetail = ({ product }) => {
           </div>
         </div>
 
-        {/* SAĞ TARAF: DETAYLAR */}
         <div className="w-full md:w-1/2 space-y-5 py-2">
           <h1 className="text-xl font-normal tracking-tight">
             {product?.name}
           </h1>
 
-          {/* Rating Bölümü */}
           <div className="flex items-center gap-2">
             <div className="flex gap-1">
               {[1, 2, 3, 4, 5].map((star) => (
@@ -144,7 +139,6 @@ const ProductDetail = ({ product }) => {
 
           <hr className="border-[#ECECEC] w-full my-6" />
 
-          {/* Renk Seçenekleri */}
           <div className="flex gap-2">
             <button className="w-8 h-8 rounded-full bg-[#23A6F0] border-2 border-transparent focus:border-gray-400"></button>
             <button className="w-8 h-8 rounded-full bg-[#2DC071] border-2 border-transparent focus:border-gray-400"></button>
@@ -152,7 +146,6 @@ const ProductDetail = ({ product }) => {
             <button className="w-8 h-8 rounded-full bg-[#252B42] border-2 border-transparent focus:border-gray-400"></button>
           </div>
 
-          {/* Aksiyon Butonları */}
           <div className="flex items-center gap-3 pt-8">
             <button
               onClick={handleAddToCart}
@@ -173,12 +166,12 @@ const ProductDetail = ({ product }) => {
                   }`}
                 />
               </button>
-              <button className="w-10 h-10 border border-[#E8E8E8] rounded-full flex items-center justify-center bg-white text-[#252B42] hover:bg-gray-50 transition-colors">
+              {/* <button className="w-10 h-10 border border-[#E8E8E8] rounded-full flex items-center justify-center bg-white text-[#252B42] hover:bg-gray-50 transition-colors">
                 <ShoppingCart size={18} />
               </button>
               <button className="w-10 h-10 border border-[#E8E8E8] rounded-full flex items-center justify-center bg-white text-[#252B42] hover:bg-gray-50 transition-colors">
                 <Eye size={18} />
-              </button>
+              </button> */}
             </div>
           </div>
         </div>

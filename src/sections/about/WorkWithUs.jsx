@@ -1,14 +1,11 @@
-import React from "react";
 
 const WorkWithUs = () => {
   return (
     <section className="w-full bg-[#252B42] overflow-hidden">
       <div className="max-w-page mx-auto flex flex-col md:flex-row items-stretch">
 
-        {/* md:w-[60%] ile alanı bölüyoruz */}
         <div className="w-full md:w-[60%] bg-[#2A7CC7] text-white py-24 md:py-40 flex justify-end">
-          {/* Metinleri üstteki elemanlarla (max-w-section) hizalamak için:
-              Bu div'in genişliği, üstteki section'ın tam yarısı kadar (720px) olmalı */}
+
           <div className="w-full max-w-180 px-8 md:px-20 flex flex-col gap-8 text-center md:text-left items-center md:items-start">
             <h5 className="font-bold text-base uppercase tracking-widest text-white">
               WORK WITH US
@@ -29,7 +26,6 @@ const WorkWithUs = () => {
           </div>
         </div>
 
-        {/* 3. İmaj Alanı: md:w-[40%] ve Mobil Görünmezlik */}
         <div className="hidden md:block md:w-[40%] relative">
           <img
             src="/image/workWithUs.jpg"

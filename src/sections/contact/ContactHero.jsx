@@ -4,6 +4,7 @@ import {
   FaInstagram,
   FaLinkedin,
 } from "react-icons/fa";
+import { Link } from "react-router-dom/cjs/react-router-dom.min";
 //import { cn } from "../../lib/mergeClass";
 
 const ContactInfo = () => {
@@ -60,16 +61,18 @@ const ContactHero = ({ page = "contact" }) => {
 
           {isAbout ? (
             <div className="flex justify-center md:justify-start">
-              <button className="bg-[#23A6F0] text-white px-10 py-4 rounded-md font-bold hover:bg-sky-600 transition-all">
+              <Link
+                to="/pricing"
+                className="bg-[#23A6F0] text-white px-10 py-4 rounded-md font-bold hover:bg-sky-600 transition-all"
+              >
                 Get Quote Now
-              </button>
+              </Link>
             </div>
           ) : (
             <ContactInfo />
           )}
         </div>
 
-        {/* SAĞ İMAJ ALANI */}
         <div className="relative w-full md:w-170 h-full md:h-170 md:overflow-y-visible my-24 md:my-16 flex items-end justify-end">
           <div className="absolute w-[85%] aspect-square bg-[#FFE9EA] rounded-full -top-15 right-5 md:-top-10 md:-right-30" />
           <img

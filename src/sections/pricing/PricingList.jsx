@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import PricingCard from "../../components/PricingCard";
 
 const PricingList = () => {

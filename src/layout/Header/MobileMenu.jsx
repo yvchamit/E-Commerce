@@ -42,7 +42,6 @@ export default function MobileMenu({ isOpen, type, setIsOpen }) {
           </li>
         ))}
 
-        {/* E-ticaret Ekstraları */}
         {isEcomFull && (
           <div className="flex flex-col items-center gap-8 mt-2 text-[#23A6F0]">
             <Link

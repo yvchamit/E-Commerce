@@ -12,7 +12,6 @@ export default function Navbar({ page, variant, maxWidth, isGray, showIcon }) {
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isCorporate = variant === "auth";
 
-  // Sayfa Linkleri Verisi
   const navLinks = isCorporate
     ? [
         { title: "Home", path: "/" },
@@ -57,7 +56,6 @@ export default function Navbar({ page, variant, maxWidth, isGray, showIcon }) {
           isCorporate ? "px-8 md:px-0" : "px-8",
         )}
       >
-        {/* SOL: LOGO & LİNKLER */}
         <div className="flex items-center gap-12 lg:gap-20">
           <Link to="/" className="text-2xl font-bold text-[#252B42]">
             Bandage
@@ -77,7 +75,6 @@ export default function Navbar({ page, variant, maxWidth, isGray, showIcon }) {
           </ul>
         </div>
 
-        {/* SAĞ: AKSİYONLAR */}
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-8 text-[#23A6F0]">
             {isCorporate ? (

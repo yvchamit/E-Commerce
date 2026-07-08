@@ -72,6 +72,15 @@ function ShopPage() {
     }
   };
 
+  console.log(
+    "cart:",
+    useSelector((s) => s.cart.cart),
+  );
+  console.log(
+    "wishlist:",
+    useSelector((s) => s.product.wishlist),
+  );
+
   return (
     <>
       <Header page="shop" />

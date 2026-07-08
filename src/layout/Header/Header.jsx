@@ -12,7 +12,7 @@ export default function Header({ page = "home", showIcon }) {
       )}
       <Navbar
         page={page}
-        variant={config.variant}
+        variant={config.nav}
         maxWidth={config.maxWidth}
         showIcon={showIcon}
       />

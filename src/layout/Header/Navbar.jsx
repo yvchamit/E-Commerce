@@ -7,56 +7,33 @@ import { RiShoppingCart2Line } from "react-icons/ri";
 import { HiMiniBars3BottomRight } from "react-icons/hi2";
 import { cn } from "../../lib/mergeClass";
 import MobileMenu from "./MobileMenu";
-import BtnContact from "../../components/BtnContact";
-import { useSelector, useDispatch } from "react-redux";
-import md5 from "md5";
-import { Link, useHistory } from "react-router-dom";
-import { logoutUser } from "../../store/actions/clientActions";
+import { useSelector } from "react-redux";
+import { Link } from "react-router-dom";
 import CartDropdown from "../../components/CartDropdown";
 import WishlistDropdown from "../../components/WishlistDropdown";
 import UserMenu from "./UserMenu";
+import AuthLinks from "./AuthLinks";
+import ShopMegaMenu from "./ShopMegaMenu";
+import ActionIcons from "../Header/ActionIcons";
+
+
+
 
 export default function Navbar({ page, variant, maxWidth, showIcon }) {
-  const dispatch = useDispatch();
-  const history = useHistory();
   const user = useSelector((state) => state.client.user);
 
-  const handleLogout = () => {
-    dispatch(logoutUser());
-    history.push("/");
-  };
   const [isMenuOpen, setIsMenuOpen] = useState(false);
   const isCorporate = variant === "auth";
 
-  const gravatarUrl = user?.email
-    ? `https://www.gravatar.com/avatar/${md5(user.email.toLowerCase().trim())}?s=32&d=identicon`
-    : null;
-
   const activeLinks = isCorporate ? navConfig.auth : navConfig.home;
-
-  const categories = useSelector((state) => state.product.categories);
-
-  const womenCategories = categories.filter(
-    (c) => c.gender.toLowerCase() === "k",
-  );
-  const menCategories = categories.filter(
-    (c) => c.gender.toLowerCase() === "e",
-  );
-
-  const cart = useSelector((state) => state.cart.cart);
-
-  const totalItems = cart.reduce((total, item) => total + item.count, 0);
-
-  const wishlist = useSelector((state) => state.product.wishlist);
-  //const wishlistCount = wishlist.length;
 
   return (
     <nav
       className={cn(
-        "w-full sticky top-0 z-50 bg-white transition-colors duration-300,md:bg-white",
+        "w-full sticky top-0 z-50 bg-white transition-colors",
         isMenuOpen && page !== "home" ? "bg-[#F6F6F6]" : "bg-white",
       )}
-    >
+    >      
       <div
         className={cn(
           "mx-auto py-6 flex justify-between items-center",
@@ -72,47 +49,8 @@ export default function Navbar({ page, variant, maxWidth, showIcon }) {
           <ul className="hidden md:flex items-center gap-5 text-[#737373] font-bold text-sm">
             {activeLinks.map((link, index) => (
               <li key={index}>
-                {/* 1. SHOP DROPDOWN */}
                 {link.title === "Shop" ? (
-                  <Dropdown title="Shop">
-                    <div className="flex p-8 gap-16 bg-white min-w-85">
-                      {/* KADIN SÜTUNU */}
-                      <div className="flex flex-col">
-                        <h3 className="font-bold text-[#252B42] text-lg mb-4">
-                          Kadın
-                        </h3>
-                        <div className="flex flex-col gap-3">
-                          {womenCategories.map((cat) => (
-                            <Link
-                              key={cat.id}
-                              to={`/shop/kadin/${cat.code.split(":")[1]}/${cat.id}`}
-                              className="text-sm font-medium text-[#737373] hover:text-[#23A6F0] transition-colors whitespace-nowrap"
-                            >
-                              {cat.title}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-
-                      {/* ERKEK SÜTUNU */}
-                      <div className="flex flex-col">
-                        <h3 className="font-bold text-[#252B42] text-lg mb-4">
-                          Erkek
-                        </h3>
-                        <div className="flex flex-col gap-3">
-                          {menCategories.map((cat) => (
-                            <Link
-                              key={cat.id}
-                              to={`/shop/erkek/${cat.code.split(":")[1]}/${cat.id}`}
-                              className="text-sm font-medium text-[#737373] hover:text-[#23A6F0] transition-colors whitespace-nowrap"
-                            >
-                              {cat.title}
-                            </Link>
-                          ))}
-                        </div>
-                      </div>
-                    </div>
-                  </Dropdown>
+                  <ShopMegaMenu/>
                 ) : link.title === "Pages" ? (
                   <Dropdown title="Pages">
                     <div className="w-44 bg-white rounded-md overflow-hidden shadow-lg">
@@ -137,73 +75,17 @@ export default function Navbar({ page, variant, maxWidth, showIcon }) {
           </ul>
         </div>
 
-
         <div className="flex items-center gap-4">
           <div className="hidden md:flex items-center gap-4 text-[#23A6F0]">
-            {/* KULLANICI GİRİŞ YAPMIŞ MI KONTROLÜ */}
             {user && user.name ? (
-              <UserMenu/>
-            ) : isCorporate ? (
-              <>
-                <Link
-                  to="/login"
-                  className="font-bold text-sm hover:text-[#23A6F0] transition-colors"
-                >
-                  Login
-                </Link>
-
-                <Link to="/signup">
-                  <BtnContact showIcon={showIcon}>Become a member</BtnContact>
-                </Link>
-              </>
+              <UserMenu />
             ) : (
-              <Link
-                to="/login"
-                className="flex items-center gap-2 font-bold text-sm hover:text-[#1a8cd8] transition-colors"
-              >
-                <FaUser size={16} />
-                <span className="hidden md:inline text-sm">
-                  Login / Register
-                </span>
-              </Link>
+              <AuthLinks isCorporate={isCorporate} showIcon={showIcon} />
             )}
 
-            {/* SEPET VE HEART İKONLARI (Sadece E-Ticaret modda) */}
-            {!isCorporate && (
-              <div className="flex gap-2 items-center">
-                <button className="p-2 hover:bg-gray-100 rounded-full transition-all cursor-pointer">
-                  <IoMdSearch size={22} />
-                </button>
-
-                {/* SEPET BÖLÜMÜ */}
-                <div className="relative group flex items-center gap-1 p-2 hover:bg-gray-50 rounded-lg cursor-pointer transition-all">
-                  <RiShoppingCart2Line size={22} className="text-[#23A6F0]" />
-                  <span className="text-[12px] font-bold text-[#23A6F0]">
-                    {totalItems}
-                  </span>
-                  <CartDropdown />
-                </div>
-
-                {/* FAVORİ (HEART) BÖLÜMÜ */}
-                <div className="relative group flex items-center gap-1 p-2 hover:bg-gray-100 rounded-lg cursor-pointer transition-all">
-                  <FaRegHeart
-                    size={20}
-                    className={"text-[#23A6F0] fill-[#23A6F0]"}
-                  />
-                  <span className={`text-[12px] font-bold text-[#23A6F0]`}>
-                    {wishlist.length}
-                  </span>
-
-                  {/* HOVER DURUMUNDA AÇILACAK MENÜ */}
-                  <div className="invisible group-hover:visible opacity-0 group-hover:opacity-100 transition-all duration-300">
-                    <WishlistDropdown />
-                  </div>
-                </div>
-              </div>
-            )}
+            {!isCorporate && <ActionIcons />}
           </div>
 
-          {/* MOBİL VE HAMBURGER*/}
           {isCorporate && (
             <div className="flex md:hidden items-center gap-4 text-[#737373]">
               <IoMdSearch size={28} />
@@ -224,7 +106,7 @@ export default function Navbar({ page, variant, maxWidth, showIcon }) {
         </div>
       </div>
 
-      <MobileMenu isOpen={isMenuOpen} type={page} setIsOpen={setIsMenuOpen} />
+      <MobileMenu isOpen={isMenuOpen} type={page} setIsOpen={setIsMenuOpen}/>
     </nav>
   );
 }

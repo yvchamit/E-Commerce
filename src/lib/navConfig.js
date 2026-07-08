@@ -52,3 +52,16 @@ export const PAGE_CONFIG = {
   team: { infobar: false, nav: "auth", maxWidth: "max-w-section" },
   pricing: { infobar: false, nav: "auth", maxWidth: "max-w-section" },
 };
+
+export const getMobileLinks = (navKey) => {
+  const flattened = navConfig[navKey].flatMap((link) =>
+    link.title === "Pages" ? link.dropdown : link,
+  );
+
+  const seen = new Set();
+  return flattened.filter((link) => {
+    if (seen.has(link.path)) return false;
+    seen.add(link.path);
+    return true;
+  });
+};

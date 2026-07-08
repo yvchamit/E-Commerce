@@ -2,7 +2,7 @@ import { toast } from "react-toastify";
 import { axiosInstance } from "../../lib/axiosInstance";
 import { SET_USER, setUser } from "../actionTypes";
 
-const getStoredToken = () =>
+export const getStoredToken = () =>
   localStorage.getItem("token") || sessionStorage.getItem("token");
 
 const clearStoredToken = () => {

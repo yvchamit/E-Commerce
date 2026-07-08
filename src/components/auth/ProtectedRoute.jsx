@@ -1,7 +1,8 @@
 import { Route, Redirect } from "react-router-dom";
+import { getStoredToken } from "../../store/actions/clientActions";
 
-const ProtectedRoute = ({ component: Component, ...rest }) => {
-  const token = localStorage.getItem("token");
+const ProtectedRoute = ({ ...rest }) => {
+  const token = getStoredToken();
 
   return (
     <Route
@@ -10,7 +11,9 @@ const ProtectedRoute = ({ component: Component, ...rest }) => {
         token ? (
           <Component {...props} />
         ) : (
-          <Redirect to={{ pathname: "/login", state: { from: props.location } }} />
+          <Redirect
+            to={{ pathname: "/login", state: { from: props.location } }}
+          />
         )
       }
     />

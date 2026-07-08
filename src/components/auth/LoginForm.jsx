@@ -1,80 +1,83 @@
 import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { useDispatch } from "react-redux";
 import { useHistory, useLocation } from "react-router-dom";
 import { loginUserAction } from "../../store/actions/clientActions";
+import FormField from "./FormField";
+import { toast } from "react-toastify";
 
 const LoginForm = () => {
-  const [formData, setFormData] = useState({ email: "", password: "" });
-  const [rememberMe, setRememberMe] = useState(false);
-  const [loading, setLoading] = useState(false);
-
   const dispatch = useDispatch();
   const history = useHistory();
   const location = useLocation();
-
   const { from } = location.state || { from: { pathname: "/" } };
+  const [submitError, setSubmitError] = useState("");
 
-  const handleChange = (e) => {
-    const value =
-      e.target.type === "checkbox" ? e.target.checked : e.target.value;
-    const name = e.target.name;
+  const {
+    register,
+    handleSubmit,
+    formState: { errors, isSubmitting },
+  } = useForm({ mode: "onBlur" });
 
-    if (name === "rememberMe") {
-      setRememberMe(value);
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    setLoading(true);
-
+  const onSubmit = async (data) => {
     try {
-      await dispatch(loginUserAction(formData, rememberMe));
+      await dispatch(
+        loginUserAction(
+          { email: data.email, password: data.password },
+          data.rememberMe,
+        ),
+      );
 
-      history.push(from);
+      if (location.state?.from) {
+        history.push(location.state.from);
+      } else if (history.length > 2) {
+        history.goBack();
+      } else {
+        history.push("/");
+      }
     } catch (err) {
-      console.error(err);
-    } finally {
-      setLoading(false);
+      toast.error(
+        err.response?.data?.message ||
+          "Login failed. Please check your email and password.",
+      );
     }
   };
 
   return (
-    <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold text-[#252B42]">
-          Email Address
-        </label>
-        <input
-          name="email"
-          type="email"
-          required
-          onChange={handleChange}
-          className="p-3 bg-[#F9F9F9] border border-[#ECECEC] rounded-md focus:outline-[#23A6F0]"
-          placeholder="example@gmail.com"
-        />
-      </div>
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      noValidate
+      className="flex flex-col gap-5"
+    >
+      <FormField
+        label="Email Address"
+        type="email"
+        placeholder="example@gmail.com"
+        error={errors.email}
+        registration={register("email", {
+          required: "Email is required!",
+          pattern: {
+            value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+            message: "Please enter a valid email address!",
+          },
+        })}
+      />
 
-      <div className="flex flex-col gap-2">
-        <label className="text-sm font-bold text-[#252B42]">Password</label>
-        <input
-          name="password"
-          type="password"
-          required
-          onChange={handleChange}
-          className="p-3 bg-[#F9F9F9] border border-[#ECECEC] rounded-md focus:outline-[#23A6F0]"
-          placeholder="********"
-        />
-      </div>
+      <FormField
+        label="Password"
+        type="password"
+        placeholder="********"
+        error={errors.password}
+        registration={register("password", {
+          required: "Password is required!",
+        })}
+      />
 
       <div className="flex items-center gap-2 pl-2">
         <input
           id="rememberMe"
-          name="rememberMe"
           type="checkbox"
-          onChange={handleChange}
+          {...register("rememberMe")}
           className="w-4 h-4 text-[#23A6F0]"
         />
         <label htmlFor="rememberMe" className="text-sm text-[#737373]">
@@ -82,12 +85,26 @@ const LoginForm = () => {
         </label>
       </div>
 
+      {submitError && (
+        <p className="text-red-500 text-sm font-medium text-center bg-red-50 border border-red-200 rounded-md p-3">
+          {submitError}
+        </p>
+      )}
+
       <button
         type="submit"
-        disabled={loading}
-        className="mt-4 bg-[#23A6F0] text-white py-4 rounded-md font-bold hover:bg-[#1a8cd8] transition-all disabled:bg-gray-400"
+        disabled={isSubmitting}
+        className={`mt-4 font-bold py-4 rounded-md transition-all shadow-md flex items-center justify-center gap-2
+          ${
+            isSubmitting
+              ? "bg-gray-300 cursor-not-allowed opacity-50"
+              : "bg-[#23A6F0] text-white hover:bg-[#1a8cd8] active:scale-[0.98]"
+          }`}
       >
-        {loading ? "Logging in..." : "Login"}
+        {isSubmitting && (
+          <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+        )}
+        {isSubmitting ? "Logging in..." : "Login"}
       </button>
     </form>
   );

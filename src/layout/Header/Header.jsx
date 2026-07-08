@@ -1,35 +1,20 @@
-import { useSelector } from "react-redux"; // Redux bağlantısı
 import Infobar from "./Infobar";
 import Navbar from "./Navbar";
+import { PAGE_CONFIG } from "../../lib/navConfig";
 
 export default function Header({ page = "home", showIcon }) {
-  const user = useSelector((state) => state.client.user);
-
-  const p = page.toLowerCase();
-  const isCorporate = ["about", "contact", "team", "pricing", "auth"].includes(
-    p,
-  );
-  const isEcommerce = ["home", "shop", "product", "product-detail"].includes(p);
-
-  const maxWidth = p === "home" ? "max-w-page" : "max-w-section";
-  const variant = isCorporate ? "auth" : "default";
+  const config = PAGE_CONFIG[page.toLowerCase()] ?? PAGE_CONFIG.home;
 
   return (
     <header className="w-full">
-      {isEcommerce && (
-        <Infobar
-          maxWidth={maxWidth}
-          bgColor={p === "home" ? "bg-[#252B42]" : "bg-[#23856D]"}
-        />
+      {config.infobar && (
+        <Infobar maxWidth={config.maxWidth} bgColor={config.infobarBg} />
       )}
-
       <Navbar
         page={page}
-        variant={variant}
-        maxWidth={maxWidth}
-        isGray={false}
+        variant={config.variant}
+        maxWidth={config.maxWidth}
         showIcon={showIcon}
-        user={user}
       />
     </header>
   );

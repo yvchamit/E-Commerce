@@ -1,104 +1,63 @@
-import axios from "axios";
 import { useEffect, useState } from "react";
-
-const initialForm = {
-  name: "",
-  email: "",
-  password: "",
-  role_id: "3",
-};
-
-const errorMessages = {
-  name: "Name is too short!",
-  email: "Please enter a valid email address!",
-  password: "Password must be at least 8 characters long!",
-};
+import { useForm } from "react-hook-form";
+import { useHistory } from "react-router-dom";
+import { toast } from "react-toastify";
+import { axiosInstance } from "../../lib/axiosInstance";
+import FormField from "./FormField";
 
 export default function SignUpForm() {
-  const [formData, setFormData] = useState(initialForm);
-  const [isLogin, setIsLogin] = useState(false);
+  const history = useHistory();
+  const [roles, setRoles] = useState([]);
+  const [submitError, setSubmitError] = useState("");
 
-  const [isValid, setIsValid] = useState(false);
-  const [errors, setErrors] = useState({
-    name: false,
-    email: false,
-    password: false,
+  const {
+    register,
+    handleSubmit,
+    watch,
+    getValues,
+    formState: { errors, isSubmitting },
+  } = useForm({
+    mode: "onBlur",
+    defaultValues: { role_id: "3" },
   });
 
-  const validateEmail = (email) => {
-    return String(email)
-      .toLowerCase()
-      .match(
-        /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|.(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/,
-      );
-  };
-
   useEffect(() => {
-    if (
-      validateEmail(formData.email) &&
-      formData.password.trim().length >= 8 &&
-      formData.name.trim().length >= 3
-    ) {
-      setIsValid(true);
-    } else {
-      setIsValid(false);
+    axiosInstance.get("/roles").then((res) => setRoles(res.data));
+  }, []);
+
+  const selectedRoleId = watch("role_id");
+  const isStore =
+    roles.find((r) => String(r.id) === String(selectedRoleId))?.code === "store";
+
+  const onSubmit = async (data) => {
+    setSubmitError("");
+
+
+    const payload = {
+      name: data.name,
+      email: data.email,
+      password: data.password,
+      role_id: Number(data.role_id),
+    };
+
+    if (isStore) {
+      payload.store = {
+        name: data.store_name,
+        phone: data.store_phone,
+        tax_no: data.tax_no,
+        bank_account: data.bank_account,
+      };
     }
-  }, [formData]);
-
-  const handleChange = (event) => {
-    const { name, value } = event.target;
-
-    setFormData((prev) => ({ ...prev, [name]: value }));
-
-    let isInvalid = false;
-    const trimmedValue = value.trim();
-
-    if (name === "email") {
-      isInvalid = !validateEmail(value);
-    } else if (name === "password") {
-      isInvalid = trimmedValue.length < 8;
-    } else if (name === "name") {
-      isInvalid = trimmedValue.length < 3;
-    }
-
-    setErrors((prevErrors) => ({
-      ...prevErrors,
-      [name]: isInvalid,
-    }));
-  };
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    const hasErrors = Object.values(errors).some((error) => error === true);
-    if (hasErrors) {
-      alert("Lütfen formdaki hataları düzeltiniz.");
-      return;
-    }
-
-    const endpoint = isLogin ? "/login" : "/signup";
-    const url = `https://workintech-fe-ecommerce.onrender.com${endpoint}`;
 
     try {
-      const response = await axios.post(url, formData);
-
-      if (response.status === 200 || response.status === 201) {
-        if (isLogin) {
-          localStorage.setItem("token", response.data.token);
-          alert("Giriş başarılı! Mağazaya yönlendiriliyorsunuz.");
-        } else {
-          alert("Kaydınız oluşturuldu! Şimdi giriş yapabilirsiniz.");
-          setIsLogin(true);
-        }
-
-        setFormData(initialForm);
-        setErrors({});
-      }
+      await axiosInstance.post("/signup", payload);
+      toast.warn("You need to click link in email to activate your account!");
+      history.goBack();
     } catch (err) {
-      const errorMessage =
+      setSubmitError(
         err.response?.data?.message ||
-        "Bir hata oluştu, lütfen bilgilerinizi kontrol edin.";
-      alert(errorMessage);
+          "Something went wrong. Please check your information and try again.",
+      );
     }
   };
 
@@ -108,84 +67,157 @@ export default function SignUpForm() {
         Create Account
       </h2>
 
-      <form onSubmit={handleSubmit} className="flex flex-col gap-5">
-        {/* Name Input */}
+      <form
+        onSubmit={handleSubmit(onSubmit)}
+        noValidate
+        className="flex flex-col gap-5"
+      >
+        <FormField
+          label="Full Name"
+          type="text"
+          placeholder="John Doe"
+          error={errors.name}
+          registration={register("name", {
+            required: "Name is required!",
+            minLength: { value: 3, message: "Name must be at least 3 characters!" },
+          })}
+        />
+
+        <FormField
+          label="Email Address"
+          type="email"
+          placeholder="example@gmail.com"
+          error={errors.email}
+          registration={register("email", {
+            required: "Email is required!",
+            pattern: {
+              value: /^[^\s@]+@[^\s@]+\.[^\s@]{2,}$/,
+              message: "Please enter a valid email address!",
+            },
+          })}
+        />
+
+        <FormField
+          label="Password"
+          type="password"
+          placeholder="Min 8 chars: upper, lower, number, special"
+          error={errors.password}
+          registration={register("password", {
+            required: "Password is required!",
+            pattern: {
+              value: /^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[^A-Za-z0-9]).{8,}$/,
+              message:
+                "Min 8 characters with number, lowercase, uppercase and special char!",
+            },
+          })}
+        />
+
+        <FormField
+          label="Confirm Password"
+          type="password"
+          placeholder="Re-enter your password"
+          error={errors.confirmPassword}
+          registration={register("confirmPassword", {
+            required: "Please confirm your password!",
+            validate: (value) =>
+              value === getValues("password") || "Passwords do not match!",
+          })}
+        />
+
         <div className="flex flex-col gap-2">
-          <label className="text-sm font-bold text-[#252B42]">Full Name</label>
-          <input
-            type="text"
-            name="name"
-            value={formData.name}
-            onChange={handleChange}
-            placeholder="John Doe"
-            className={`p-3 border rounded-md bg-[#F9F9F9] focus:outline-[#23A6F0] ${
-              errors.name ? "border-red-500" : "border-[#ECECEC]"
-            }`}
-            required
-          />
-          {errors.name && (
-            <p className="text-red-500 text-[12px] font-medium mt-1 px-2">
-              {errorMessages.name}
-            </p>
-          )}
+          <label className="text-sm font-bold text-[#252B42]">Role</label>
+          <select
+            {...register("role_id")}
+            className="p-3 border rounded-md bg-[#F9F9F9] border-[#ECECEC] focus:outline-[#23A6F0]"
+          >
+            {roles.map((role) => (
+              <option key={role.id} value={role.id}>
+                {role.name}
+              </option>
+            ))}
+          </select>
         </div>
 
-        {/* Email Input */}
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-bold text-[#252B42]">
-            Email Address
-          </label>
-          <input
-            type="email"
-            name="email"
-            value={formData.email}
-            onChange={handleChange}
-            placeholder="example@gmail.com"
-            className={`p-3 border rounded-md bg-[#F9F9F9] focus:outline-[#23A6F0] ${
-              errors.email ? "border-red-500" : "border-[#ECECEC]"
-            }`}
-            required
-          />
-          {errors.email && (
-            <p className="text-red-500 text-[12px] font-medium mt-1 px-2">
-              {errorMessages.email}
-            </p>
-          )}
-        </div>
+        {isStore && (
+          <>
+            <FormField
+              label="Store Name"
+              type="text"
+              placeholder="My Store"
+              error={errors.store_name}
+              registration={register("store_name", {
+                required: "Store name is required!",
+                minLength: {
+                  value: 3,
+                  message: "Store name must be at least 3 characters!",
+                },
+              })}
+            />
 
-        {/* Password Input */}
-        <div className="flex flex-col gap-2">
-          <label className="text-sm font-bold text-[#252B42]">Password</label>
-          <input
-            type="password"
-            name="password"
-            value={formData.password}
-            onChange={handleChange}
-            placeholder="Min 8 characters"
-            className={`p-3 border rounded-md bg-[#F9F9F9] focus:outline-[#23A6F0] ${
-              errors.password ? "border-red-500" : "border-[#ECECEC]"
-            }`}
-            required
-          />
-          {errors.password && (
-            <p className="text-red-500 text-[12px] font-medium mt-1 px-2">
-              {errorMessages.password}
-            </p>
-          )}
-        </div>
+            <FormField
+              label="Store Phone"
+              type="tel"
+              placeholder="05XXXXXXXXX"
+              error={errors.store_phone}
+              registration={register("store_phone", {
+                required: "Store phone is required!",
+                pattern: {
+                  value: /^(\+90|0)?5\d{9}$/,
+                  message: "Please enter a valid Türkiye phone number!",
+                },
+              })}
+            />
 
-        {/* Submit Button */}
+            <FormField
+              label="Store Tax ID"
+              type="text"
+              placeholder="TXXXXVXXXXXX"
+              error={errors.tax_no}
+              registration={register("tax_no", {
+                required: "Tax ID is required!",
+                pattern: {
+                  value: /^T\d{4}V\d{6}$/,
+                  message: "Tax ID must match pattern TXXXXVXXXXXX!",
+                },
+              })}
+            />
+
+            <FormField
+              label="Store Bank Account (IBAN)"
+              type="text"
+              placeholder="TR + 24 digits"
+              error={errors.bank_account}
+              registration={register("bank_account", {
+                required: "IBAN is required!",
+                pattern: {
+                  value: /^TR\d{24}$/,
+                  message: "Please enter a valid IBAN (TR + 24 digits)!",
+                },
+              })}
+            />
+          </>
+        )}
+
+        {submitError && (
+          <p className="text-red-500 text-sm font-medium text-center bg-red-50 border border-red-200 rounded-md p-3">
+            {submitError}
+          </p>
+        )}
+
         <button
           type="submit"
-          disabled={!isValid}
-          className={`mt-4 font-bold py-4 rounded-md transition-all shadow-md 
-    ${
-      !isValid
-        ? "bg-gray-300 cursor-not-allowed opacity-50" // Pasif hali
-        : "bg-[#23A6F0] text-white hover:bg-[#1a8cd8] active:scale-[0.98]" // Aktif hali
-    }`}
+          disabled={isSubmitting}
+          className={`mt-4 font-bold py-4 rounded-md transition-all shadow-md flex items-center justify-center gap-2
+            ${
+              isSubmitting
+                ? "bg-gray-300 cursor-not-allowed opacity-50"
+                : "bg-[#23A6F0] text-white hover:bg-[#1a8cd8] active:scale-[0.98]"
+            }`}
         >
-          Sign Up
+          {isSubmitting && (
+            <span className="w-5 h-5 border-2 border-white border-t-transparent rounded-full animate-spin" />
+          )}
+          {isSubmitting ? "Signing Up..." : "Sign Up"}
         </button>
       </form>
 

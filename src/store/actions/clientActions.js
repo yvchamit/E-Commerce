@@ -1,45 +1,44 @@
-import axios from "axios";
 import { toast } from "react-toastify";
-import { LOGIN_SUCCESS, SET_USER, setUser } from "../actionTypes";
+import { axiosInstance } from "../../lib/axiosInstance";
+import { SET_USER, setUser } from "../actionTypes";
+
+const getStoredToken = () =>
+  localStorage.getItem("token") || sessionStorage.getItem("token");
+
+const clearStoredToken = () => {
+  localStorage.removeItem("token");
+  sessionStorage.removeItem("token");
+  delete axiosInstance.defaults.headers.common["Authorization"];
+};
 
 export const verifyToken = () => async (dispatch) => {
-  const token = localStorage.getItem("token");
-
+  const token = getStoredToken();
   if (!token) return;
-
   try {
-    const response = await axios.get(
-      "https://workintech-fe-ecommerce.onrender.com/verify",
-      {
-        headers: {
-          Authorization: token,
-        },
-      },
-    );
-
+    const response = await axiosInstance.get("/verify", {
+      headers: { Authorization: token },
+    });
     const { token: newToken, ...user } = response.data;
-
     dispatch(setUser(user));
-
-    localStorage.setItem("token", newToken);
+    if (localStorage.getItem("token")) {
+      localStorage.setItem("token", newToken);
+    } else {
+      sessionStorage.setItem("token", newToken);
+    }
+    axiosInstance.defaults.headers.common["Authorization"] = newToken;
   } catch (error) {
     console.error("Token geçersiz:", error);
-    localStorage.removeItem("token");
+    clearStoredToken();
   }
 };
 
 export const loginUserAction = (formData, rememberMe) => async (dispatch) => {
   try {
-    const response = await axios.post(
-      "https://workintech-fe-ecommerce.onrender.com/login",
-      formData,
-    );
-
+    const response = await axiosInstance.post("/login", formData);
     const { token, name, email, role_id } = response.data;
-    const user = { name, email, role_id };
 
-    dispatch({ type: LOGIN_SUCCESS, payload: response.data });
-    dispatch({ type: SET_USER, payload: user });
+    dispatch(setUser({ name, email, role_id }));
+    axiosInstance.defaults.headers.common["Authorization"] = token;
 
     if (rememberMe) {
       localStorage.setItem("token", token);
@@ -47,29 +46,19 @@ export const loginUserAction = (formData, rememberMe) => async (dispatch) => {
       sessionStorage.setItem("token", token);
     }
 
-    toast.success(`Hoş geldin ${name}!`, {
-      position: "top-right",
-      autoClose: 1500,
-      hideProgressBar: false,
-      closeOnClick: true,
-      pauseOnHover: true,
-      draggable: true,
-    });
+    toast.success(`Hoş geldin ${name}!`, { autoClose: 1500 });
     return response.data;
   } catch (error) {
-    const errorMsg =
+    toast.error(
       error.response?.data?.message ||
-      "Giriş başarısız. Bilgilerinizi kontrol edin.";
-    toast.error(errorMsg);
+        "Giriş başarısız. Bilgilerinizi kontrol edin.",
+    );
     throw error;
   }
 };
 
 export const logoutUser = () => (dispatch) => {
-  localStorage.removeItem("token");
-  sessionStorage.removeItem("token");
-
+  clearStoredToken();
   dispatch({ type: SET_USER, payload: {} });
-
   toast.success("Başarıyla çıkış yapıldı.");
 };

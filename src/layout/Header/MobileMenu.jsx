@@ -9,10 +9,8 @@ export default function MobileMenu({ isOpen, type, setIsOpen }) {
   if (!isOpen) return null;
 
   const p = type.toLowerCase();
-  //const isEcomFull = ["shop", "product", "home"].includes(p);
   const isHome = p === "home";
   const isEcomFull = !isHome && ["shop", "product"].includes(p);
-  //const links = isHome ? navConfig.auth : navConfig.home;
 
   const links = isEcomFull ? navConfig.home : navConfig.auth;
 

@@ -1,5 +1,4 @@
 import { useState } from "react";
-import { Link } from "react-router-dom";
 import { navConfig } from "../../lib/navConfig";
 import Dropdown from "../../components/Dropdown";
 import { FaUser, FaRegHeart, FaTimes } from "react-icons/fa";
@@ -11,12 +10,13 @@ import MobileMenu from "./MobileMenu";
 import BtnContact from "../../components/BtnContact";
 import { useSelector, useDispatch } from "react-redux";
 import md5 from "md5";
-import { useHistory } from "react-router-dom/cjs/react-router-dom.min";
+import { Link, useHistory } from "react-router-dom";
 import { logoutUser } from "../../store/actions/clientActions";
 import CartDropdown from "../../components/CartDropdown";
 import WishlistDropdown from "../../components/WishlistDropdown";
+import UserMenu from "./UserMenu";
 
-export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
+export default function Navbar({ page, variant, maxWidth, showIcon }) {
   const dispatch = useDispatch();
   const history = useHistory();
   const user = useSelector((state) => state.client.user);
@@ -53,8 +53,7 @@ export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
   return (
     <nav
       className={cn(
-        "w-full sticky top-0 z-50 bg-white transition-colors duration-300",
-        isGray && "md:bg-white",
+        "w-full sticky top-0 z-50 bg-white transition-colors duration-300,md:bg-white",
         isMenuOpen && page !== "home" ? "bg-[#F6F6F6]" : "bg-white",
       )}
     >
@@ -143,50 +142,7 @@ export default function Navbar({ page, variant, maxWidth, showIcon, isGray }) {
           <div className="hidden md:flex items-center gap-4 text-[#23A6F0]">
             {/* KULLANICI GİRİŞ YAPMIŞ MI KONTROLÜ */}
             {user && user.name ? (
-              <Dropdown
-                title={
-                  <div className="flex items-center gap-2">
-                    <div className="w-8 h-8 rounded-full bg-[#23A6F0] flex items-center justify-center text-white text-xs font-bold overflow-hidden border border-[#23A6F0]">
-                      {gravatarUrl ? (
-                        <img
-                          src={gravatarUrl}
-                          alt={user.name}
-                          className="w-full h-full object-cover"
-                        />
-                      ) : (
-                        user.name.charAt(0).toUpperCase()
-                      )}
-                    </div>
-                    <span className="max-w-25 truncate">{user.name}</span>
-                  </div>
-                }
-              >
-                <div className="w-44 bg-white rounded-md overflow-hidden">
-                  {/* SİPARİŞLERİM LİNKİ AKTİFLEŞTİRİLDİ */}
-                  <Link
-                    to="/previous-orders"
-                    className="block px-6 py-3 text-sm text-[#737373] hover:bg-gray-50 hover:text-[#23A6F0] transition-colors font-bold"
-                  >
-                    Previous Orders
-                  </Link>
-
-                  {/* <Link
-                    to="/settings"
-                    className="block px-6 py-3 text-sm text-[#737373] hover:bg-gray-50 hover:text-[#23A6F0] transition-colors"
-                  >
-                    Settings
-                  </Link>
-
-                  <hr className="border-[#ECECEC]" /> */}
-
-                  <button
-                    onClick={handleLogout}
-                    className="w-full text-left px-6 py-3 text-sm text-red-500 font-bold hover:bg-red-50 transition-colors"
-                  >
-                    Logout
-                  </button>
-                </div>
-              </Dropdown>
+              <UserMenu/>
             ) : isCorporate ? (
               <>
                 <Link

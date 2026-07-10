@@ -1,6 +1,6 @@
 import { useSelector, useDispatch } from "react-redux";
 import { Link } from "react-router-dom";
-import { addToCart } from "../store/actions/cartActions";
+import { addToCart } from "../store/actions/shoppingCartActions";
 import { toggleWishlist } from "../store/actions/productActions";
 import { ShoppingCart, Trash2 } from "lucide-react";
 

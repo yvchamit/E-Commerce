@@ -1,29 +1,27 @@
 import { useEffect, useState } from "react";
 import { getOrders } from "../lib/orderService";
-import { useSelector, useDispatch } from "react-redux";
-import { fetchProducts } from "../store/actions/productActions";
 import Header from "../layout/Header/Header";
 import Footer from "../layout/Footer/Footer";
 import { ChevronDown, ChevronUp, Package } from "lucide-react";
 
+const PLACEHOLDER_IMG =
+  "https://dummyimage.com/200x300/e0e0e0/737373.png&text=No+Image";
+
 const OrderHistoryPage = () => {
-  const dispatch = useDispatch();
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(false);
   const [expandedOrder, setExpandedOrder] = useState(null);
 
-  const allProducts = useSelector((state) => state.product.productList || []);
-
   useEffect(() => {
-    if (allProducts.length === 0) {
-      dispatch(fetchProducts());
-    }
-
     getOrders()
       .then((data) => setOrders(data))
-      .catch((err) => console.error("Orders Fetch Error:", err))
+      .catch((err) => {
+        console.error("Orders Fetch Error:", err);
+        setError(true);
+      })
       .finally(() => setLoading(false));
-  }, [dispatch, allProducts.length]);
+  }, []);
 
   const toggleOrder = (orderId) => {
     setExpandedOrder(expandedOrder === orderId ? null : orderId);
@@ -41,6 +39,13 @@ const OrderHistoryPage = () => {
         {loading ? (
           <div className="text-center py-20 text-[#737373]">
             Loading orders...
+          </div>
+        ) : error ? (
+          <div className="bg-white p-12 text-center rounded-xl shadow-sm border">
+            <p className="text-red-500 font-medium">
+              Siparişleriniz yüklenirken bir sorun oluştu. Lütfen sayfayı
+              yenileyin.
+            </p>
           </div>
         ) : orders.length === 0 ? (
           <div className="bg-white p-12 text-center rounded-xl shadow-sm border">
@@ -71,7 +76,7 @@ const OrderHistoryPage = () => {
                         Total Amount
                       </p>
                       <p className="font-semibold text-[#23A6F0]">
-                        {order.price.toFixed(2)} TL
+                        {(order.price ?? 0).toFixed(2)} TL
                       </p>
                     </div>
                   </div>
@@ -88,16 +93,14 @@ const OrderHistoryPage = () => {
                 </div>
 
                 {expandedOrder === order.id && (
-                  <div className="border-t border-[#23A6F0]  bg-[#F9F9F9] p-6 animate-fadeIn">
+                  <div className="border-t border-[#23A6F0] bg-[#F9F9F9] p-6">
                     <h4 className="font-bold text-[#252B42] mb-4 border-b border-gray-200 pb-2">
                       Order Items
                     </h4>
                     <div className="space-y-4">
                       {order.products.map((item, idx) => {
                         const displayImage =
-                          item.images?.[0]?.url ||
-                          item.image ||
-                          "https://dummyimage.com/200x300/e0e0e0/737373.png&text=No+Image";
+                          item.images?.[0]?.url || PLACEHOLDER_IMG;
 
                         return (
                           <div
@@ -109,26 +112,28 @@ const OrderHistoryPage = () => {
                               alt={item.name || "Product"}
                               className="w-16 h-20 object-cover rounded shadow-sm"
                               onError={(e) => {
-                                e.target.src =
-                                  "https://dummyimage.com/200x300/e0e0e0/737373.png&text=Error";
+                                e.target.src = PLACEHOLDER_IMG;
                               }}
                             />
                             <div className="flex-1">
                               <p className="font-bold text-[#252B42]">
-                                {item.name || `Product ID: ${item.product_id}`}
+                                {item.name || `Ürün #${item.id}`}
                               </p>
-                              <p className="text-sm text-[#737373]">
-                                {item.description ||
-                                  "Details not available"}{" "}
-                              </p>
+                              {item.description && (
+                                <p className="text-sm text-[#737373] line-clamp-1">
+                                  {item.description}
+                                </p>
+                              )}
                             </div>
                             <div className="text-right">
                               <p className="text-xs text-[#737373]">
                                 Qty: {item.count}
                               </p>
-                              <p className="font-bold text-[#252B42]">
-                                {(item.price * item.count).toFixed(2)} TL
-                              </p>
+                              {item.price != null && (
+                                <p className="font-bold text-[#252B42]">
+                                  {(item.price * item.count).toFixed(2)} TL
+                                </p>
+                              )}
                             </div>
                           </div>
                         );

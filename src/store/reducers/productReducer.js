@@ -17,7 +17,7 @@ const initialProductState = {
   limit: 25,
   offset: 0,
   filter: "",
-  fetchState: "NOT_FETCHED", // "NOT_FETCHED", "FETCHING", "FETCHED", "FAILED"
+  fetchState: "NOT_FETCHED", // "NOT_FETCHED" | "FETCHING" | "FETCHED" | "FAILED"
 };
 
 
@@ -61,20 +61,3 @@ export const productReducer = (state = initialProductState, action) => {
       return state;
   }
 };
-
-export const setCategories = (categories) => ({
-  type: SET_CATEGORIES,
-  payload: categories,
-});
-export const setProductList = (products) => ({
-  type: SET_PRODUCT_LIST,
-  payload: products,
-});
-export const setTotal = (total) => ({ type: SET_TOTAL, payload: total });
-export const setFetchState = (fetchState) => ({
-  type: SET_FETCH_STATE,
-  payload: fetchState,
-});
-export const setLimit = (limit) => ({ type: SET_LIMIT, payload: limit });
-export const setOffset = (offset) => ({ type: SET_OFFSET, payload: offset });
-export const setFilter = (filter) => ({ type: SET_FILTER, payload: filter });

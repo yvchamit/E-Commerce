@@ -1,4 +1,5 @@
 import {
+  ADD_TO_CART,
   CLEAR_CART,
   REMOVE_FROM_CART,
   SET_ADDRESS,
@@ -22,6 +23,28 @@ export const shoppingCartReducer = (state = initialCartState, action) => {
       return { ...state, payment: action.payload };
     case SET_ADDRESS:
       return { ...state, address: action.payload };
+    case "ADD_TO_CART": {
+      const existingProductIndex = state.cart.findIndex(
+        (item) => item.product.id === action.payload.id,
+      );
+
+      if (existingProductIndex >= 0) {
+        const updatedCart = [...state.cart];
+        updatedCart[existingProductIndex] = {
+          ...updatedCart[existingProductIndex],
+          count: updatedCart[existingProductIndex].count + 1,
+        };
+        return { ...state, cart: updatedCart };
+      }
+
+      return {
+        ...state,
+        cart: [
+          ...state.cart,
+          { count: 1, checked: true, product: action.payload },
+        ],
+      };
+    }
     case REMOVE_FROM_CART:
       return {
         ...state,
@@ -45,23 +68,17 @@ export const shoppingCartReducer = (state = initialCartState, action) => {
             : item,
         ),
       };
-    case CLEAR_CART:
-      localStorage.removeItem("cart");
+    case CLEAR_CART: {
+      const remainingItems = state.cart.filter(
+        (item) => item.checked === false,
+      );
       return {
         ...state,
-        cart: [],
+        cart: remainingItems,
       };
+    }
+
     default:
       return state;
   }
 };
-
-export const setCart = (cart) => ({ type: SET_CART, payload: cart });
-export const setPayment = (payment) => ({
-  type: SET_PAYMENT,
-  payload: payment,
-});
-export const setAddress = (address) => ({
-  type: SET_ADDRESS,
-  payload: address,
-});

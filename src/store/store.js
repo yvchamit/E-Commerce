@@ -8,19 +8,12 @@ import logger from "redux-logger";
 import { productReducer } from "./reducers/productReducer";
 import { shoppingCartReducer } from "./reducers/shoppingCartReducer";
 import { clientReducer } from "./reducers/clientReducer";
-import cartReducer from "./reducers/cartReducer";
-import { addressReducer } from "./reducers/addressReducer";
-import { paymentReducer } from "./reducers/paymentReducer";
 
 const rootReducer = combineReducers({
   client: clientReducer,
   product: productReducer,
   shoppingCart: shoppingCartReducer,
-  cart: cartReducer,
-  address: addressReducer,
-  payment: paymentReducer,
 });
-
 
 const loadCartFromLS = () => {
   try {
@@ -33,8 +26,10 @@ const loadCartFromLS = () => {
 };
 
 const preloadedState = {
-  cart: {
+  shoppingCart: {
     cart: loadCartFromLS() || [],
+    payment: {},
+    address: {},
   },
 };
 
@@ -44,7 +39,11 @@ export const store = createStore(
   applyMiddleware(thunk, logger),
 );
 
+let prevCart;
 store.subscribe(() => {
-  const cartData = store.getState().cart.cart;
-  localStorage.setItem("my_shopping_cart", JSON.stringify(cartData));
+  const cart = store.getState().shoppingCart.cart;
+  if (cart !== prevCart) {
+    localStorage.setItem("my_shopping_cart", JSON.stringify(cart));
+    prevCart = cart;
+  }
 });

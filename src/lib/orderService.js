@@ -4,23 +4,24 @@ export const createOrder = async (
   cart,
   selectedAddress,
   selectedCard,
-  installments,
   grandTotal,
 ) => {
   const orderPayload = {
-    address_id: selectedAddress?.id || 1,
+    address_id: selectedAddress.id,
     order_date: new Date().toISOString(),
-    card_no: Number(selectedCard.card_no.replace(/\s/g, "")),
+    card_no: String(selectedCard.card_no).replace(/\s/g, ""),
     card_name: selectedCard.name_on_card,
     card_expire_month: Number(selectedCard.expire_month),
     card_expire_year: Number(selectedCard.expire_year),
     card_ccv: 321,
     price: grandTotal,
-    products: cart.map((item) => ({
-      product_id: item.product.id,
-      count: item.count,
-      detail: `${item.product.name} - ${item.count} adet`,
-    })),
+    products: cart
+      .filter((item) => item.checked)
+      .map((item) => ({
+        product_id: item.product.id,
+        count: item.count,
+        detail: `${item.product.name} - ${item.count} adet`,
+      })),
   };
 
   try {

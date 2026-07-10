@@ -1,15 +1,12 @@
-import axios from 'axios';
+import { axiosInstance } from "../../lib/axiosInstance";
+import { setRoles } from "../reducers/clientReducer";
 
-export const fetchRolesAction = () => (dispatch, getState, setRoles) => {
+export const fetchRolesAction = () => (dispatch, getState) => {
   const { roles } = getState().client;
-
   if (roles.length === 0) {
-    axios.get('https://api-your-endpoint.com/roles')
-      .then(response => {
-        dispatch(setRoles(response.data));
-      })
-      .catch(error => {
-        console.error("Roller yüklenirken hata oluştu:", error);
-      });
+    axiosInstance
+      .get("/roles")
+      .then((response) => dispatch(setRoles(response.data)))
+      .catch((error) => console.error("Roller yüklenirken hata oluştu:", error));
   }
 };

@@ -8,7 +8,7 @@ import {
   Eye,
 } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
-import { addToCart } from "../../store/actions/cartActions";
+import { addToCart } from "../../store/actions/shoppingCartActions";
 import { toast } from "react-toastify";
 import { toggleWishlist } from "../../store/actions/productActions";
 

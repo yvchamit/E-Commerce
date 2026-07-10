@@ -1,6 +1,7 @@
 import { toast } from "react-toastify";
 import { axiosInstance } from "../../lib/axiosInstance";
-import { SET_USER, setUser } from "../actionTypes";
+import { SET_LANGUAGE, SET_ROLES, SET_THEME, SET_USER } from "../actionTypes";
+
 
 export const getStoredToken = () =>
   localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -59,6 +60,15 @@ export const loginUserAction = (formData, rememberMe) => async (dispatch) => {
 
 export const logoutUser = () => (dispatch) => {
   clearStoredToken();
-  dispatch({ type: SET_USER, payload: {} });
+  dispatch(setUser({}));
   toast.success("Başarıyla çıkış yapıldı.");
 };
+
+
+export const setUser = (user) => ({ type: SET_USER, payload: user });
+
+export const setRoles = (roles) => ({ type: SET_ROLES, payload: roles });
+
+export const setTheme = (theme) => ({ type: SET_THEME, payload: theme });
+
+export const setLanguage = (lang) => ({ type: SET_LANGUAGE, payload: lang });

@@ -26,6 +26,7 @@ function CategoryColumn({ heading, genderSlug, categories }) {
 
 export default function ShopMegaMenu() {
   const categories = useSelector((state) => state.product.categories);
+  const isLoading = categories.length === 0;
 
   const womenCategories = categories.filter(
     (c) => c.gender?.toLowerCase() === "k",
@@ -37,16 +38,24 @@ export default function ShopMegaMenu() {
   return (
     <Dropdown title="Shop">
       <div className="flex p-8 gap-16 bg-white min-w-85">
-        <CategoryColumn
-          heading="Kadın"
-          genderSlug="kadin"
-          categories={womenCategories}
-        />
-        <CategoryColumn
-          heading="Erkek"
-          genderSlug="erkek"
-          categories={menCategories}
-        />
+        {isLoading ? (
+          <p className="text-sm text-[#737373] animate-pulse">
+            Kategoriler yükleniyor...
+          </p>
+        ) : (
+          <>
+            <CategoryColumn
+              heading="Kadın"
+              genderSlug="kadin"
+              categories={womenCategories}
+            />
+            <CategoryColumn
+              heading="Erkek"
+              genderSlug="erkek"
+              categories={menCategories}
+            />
+          </>
+        )}
       </div>
     </Dropdown>
   );

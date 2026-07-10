@@ -71,7 +71,7 @@ export default function MobileMenu({ isOpen, type, setIsOpen }) {
                 <IoMdSearch size={42} />
               </button>
               <Link
-                to="/cart"
+                to="/shopping-cart"
                 onClick={() => setIsOpen(false)}
                 className="flex items-center gap-1"
               >
@@ -79,7 +79,7 @@ export default function MobileMenu({ isOpen, type, setIsOpen }) {
                 <span className="text-sm">{totalItems}</span>
               </Link>
               <Link
-                to="/wishlist"
+                to="/shopping-cart"
                 onClick={() => setIsOpen(false)}
                 className="flex items-center gap-1"
               >

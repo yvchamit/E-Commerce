@@ -1,14 +1,9 @@
 import { axiosInstance } from "../../lib/axiosInstance";
-import { SET_ADDRESS_LIST, SET_SELECTED_ADDRESS } from "../actionTypes";
+import { SET_ADDRESS_LIST } from "../actionTypes";
 
 export const setAddressList = (addressList) => ({
   type: SET_ADDRESS_LIST,
   payload: addressList,
-});
-
-export const setSelectedAddress = (address) => ({
-  type: SET_SELECTED_ADDRESS,
-  payload: address,
 });
 
 export const fetchAddresses = () => (dispatch) => {

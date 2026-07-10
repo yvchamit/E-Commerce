@@ -2,7 +2,7 @@ import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
 
 const CartDropdown = () => {
-  const { cart } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.shoppingCart);
   const totalItems = cart.reduce((total, item) => total + item.count, 0);
 
   const subtotal = cart.reduce(

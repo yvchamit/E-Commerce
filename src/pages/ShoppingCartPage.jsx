@@ -8,7 +8,7 @@ import OrderSummary from "../sections/shoppingCart/OrderSummary";
 import CartFavorites from "../sections/shoppingCart/CartFavorites";
 
 const ShoppingCartPage = () => {
-  const cart = useSelector((state) => state.cart?.cart || []);
+  const cart = useSelector((state) => state.shoppingCart?.cart || []);
 
   const totalItems = cart.reduce((total, item) => total + (item.count || 0), 0);
   const selectedProductsTotalPrice = cart

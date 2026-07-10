@@ -2,11 +2,17 @@ import {
   SET_CART,
   SET_PAYMENT,
   SET_ADDRESS,
+  ADD_TO_CART,
   REMOVE_FROM_CART,
   TOGGLE_CHECK_ITEM,
   UPDATE_CART_ITEM,
   CLEAR_CART,
 } from "../actionTypes";
+
+export const addToCart = (product) => ({
+  type: ADD_TO_CART,
+  payload: product,
+});
 
 export const setCart = (cart) => ({ type: SET_CART, payload: cart });
 export const setPayment = (payment) => ({

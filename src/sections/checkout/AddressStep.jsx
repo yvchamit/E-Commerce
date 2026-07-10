@@ -5,16 +5,15 @@ import {
   addAddress,
   updateAddress,
   deleteAddress,
-  setSelectedAddress,
 } from "../../store/actions/addressActions";
-import { Plus, Edit2, Trash2, MapPin, Phone, User, ChevronRight } from "lucide-react";
-import AddressForm from "./AddressForm";
+import { setAddress } from "../../store/actions/shoppingCartActions";
+import { Plus, Edit2, Trash2, MapPin, Phone, User } from "lucide-react";
+import AddressForm from "../singUp/AddressForm";
 
-const AddressStep = ({ onNext }) => {
+const AddressStep = () => {
   const dispatch = useDispatch();
-  const { addressList, selectedAddress } = useSelector(
-    (state) => state.address,
-  );
+  const addressList = useSelector((state) => state.client.addressList);
+  const selectedAddress = useSelector((state) => state.shoppingCart.address);
   const [showModal, setShowModal] = useState(false);
   const [editingAddress, setEditingAddress] = useState(null);
 
@@ -24,7 +23,6 @@ const AddressStep = ({ onNext }) => {
 
   const handleFormSubmit = (data) => {
     if (editingAddress) {
-      // ID'yi payload'a ekleyip update tetikliyoruz
       dispatch(updateAddress({ ...data, id: editingAddress.id })).then(() =>
         setShowModal(false),
       );
@@ -68,7 +66,7 @@ const AddressStep = ({ onNext }) => {
           {addressList.map((address) => (
             <div
               key={address.id}
-              onClick={() => dispatch(setSelectedAddress(address))}
+              onClick={() => dispatch(setAddress(address))}
               className={`group relative flex flex-col md:flex-row md:items-center justify-between p-5 border-2 rounded-xl cursor-pointer transition-all ${
                 selectedAddress?.id === address.id
                   ? "border-[#23A6F0] bg-blue-50/50"
@@ -126,18 +124,6 @@ const AddressStep = ({ onNext }) => {
           ))}
         </div>
       </div>
-      {selectedAddress && (
-        <div className="flex justify-end mt-10 pt-6 border-t border-gray-100">
-          <button
-            onClick={onNext}
-            className="flex items-center gap-2 bg-[#23A6F0] text-white px-12 py-4 rounded-xl font-bold hover:bg-[#1a8cd3] transition-all shadow-lg hover:shadow-xl active:scale-95 text-lg"
-          >
-            Save and Continue
-            <ChevronRight size={22} />
-          </button>
-        </div>
-      )}
-
       {showModal && (
         <AddressForm
           onSubmit={handleFormSubmit}

@@ -32,7 +32,6 @@ function ShopPage() {
   const [filterText, setFilterText] = useState("");
   const [sortOption, setSortOption] = useState("");
   const [view, setView] = useState("grid");
-  const [currentPage, setCurrentPage] = useState(1);
 
   const LIMIT = 25;
   const totalPages = Math.ceil((total || 0) / LIMIT);
@@ -72,14 +71,26 @@ function ShopPage() {
     }
   };
 
-  console.log(
-    "cart:",
-    useSelector((s) => s.cart.cart),
-  );
-  console.log(
-    "wishlist:",
-    useSelector((s) => s.product.wishlist),
-  );
+  const resetPageInUrl = () => {
+    const searchParams = new URLSearchParams(location.search);
+    if (searchParams.has("page")) {
+      searchParams.delete("page");
+      history.push({
+        pathname: location.pathname,
+        search: searchParams.toString(),
+      });
+    }
+  };
+
+  const handleFilterChange = (value) => {
+    setFilterText(value);
+    resetPageInUrl();
+  };
+
+  const handleSortChange = (value) => {
+    setSortOption(value);
+    resetPageInUrl();
+  };
 
   return (
     <>
@@ -89,19 +100,19 @@ function ShopPage() {
 
       <ShopFilterBar
         actualTotal={total}
-        currentPage={currentPage}
+        currentPage={pageFromUrl}
         limit={LIMIT}
         view={view}
         setView={setView}
         filterText={filterText}
-        onFilterChange={setFilterText}
+        onFilterChange={handleFilterChange}
+        onSortChange={handleSortChange}
         sortOption={sortOption}
-        onSortChange={setSortOption}
       />
 
       {fetchState === "FETCHING" ? (
         <LoadingSpinner />
-      ) : fetchState === "ERROR" ? (
+      ) : fetchState === "FAILED" ? (
         <div className="text-center py-20 text-red-500 font-bold">
           Ürünler yüklenirken bir hata oluştu.
         </div>

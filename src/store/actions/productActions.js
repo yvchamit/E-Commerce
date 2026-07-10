@@ -1,4 +1,3 @@
-import axios from "axios";
 import {
   SET_CATEGORIES,
   SET_PRODUCT_LIST,
@@ -8,9 +7,10 @@ import {
   SET_OFFSET,
   SET_FILTER,
   TOGGLE_WISHLIST,
-  SET_TOTAL_PRODUCT_COUNT,
 } from "../actionTypes";
 import { axiosInstance } from "../../lib/axiosInstance";
+
+const LIMIT = 25;
 
 export const setCategories = (categories) => ({
   type: SET_CATEGORIES,
@@ -28,58 +28,44 @@ export const setFetchState = (fetchState) => ({
 export const setLimit = (limit) => ({ type: SET_LIMIT, payload: limit });
 export const setOffset = (offset) => ({ type: SET_OFFSET, payload: offset });
 export const setFilter = (filter) => ({ type: SET_FILTER, payload: filter });
-
-export const fetchCategories = () => async (dispatch) => {
-  dispatch({ type: SET_FETCH_STATE, payload: "FETCHING" });
-  try {
-    const res = await axios.get(
-      "https://workintech-fe-ecommerce.onrender.com/categories",
-    );
-    dispatch({ type: SET_CATEGORIES, payload: res.data });
-    dispatch({ type: SET_FETCH_STATE, payload: "FETCHED" });
-  } catch (err) {
-    console.error("Kategoriler yüklenemedi:", err);
-    dispatch({ type: SET_FETCH_STATE, payload: "ERROR" });
-  }
-};
-
 export const toggleWishlist = (product) => ({
   type: TOGGLE_WISHLIST,
   payload: product,
 });
 
-const LIMIT = 25;
 
-export const setTotalProductCount = (total) => ({
-  type: SET_TOTAL,
-  payload: total,
-});
+export const fetchCategories = () => async (dispatch) => {
+  const cached = sessionStorage.getItem("categories");
+  if (cached) {
+    dispatch(setCategories(JSON.parse(cached)));
+  }
+  try {
+    const res = await axiosInstance.get("/categories");
+    dispatch(setCategories(res.data));
+    sessionStorage.setItem("categories", JSON.stringify(res.data));
+  } catch (err) {
+    console.error("Kategoriler alınamadı:", err);
+  }
+};
 
 export const fetchProducts = (params = {}) => {
   const { category, filter, sort, page = 1 } = params;
-
   return (dispatch) => {
     dispatch(setFetchState("FETCHING"));
-
-    const LIMIT = 25;
     const offset = (page - 1) * LIMIT;
 
-    let url = `https://workintech-fe-ecommerce.onrender.com/products?limit=${LIMIT}&offset=${offset}`;
-
-    if (category) url += `&category=${category}`;
-    if (filter) url += `&filter=${filter}`;
-    if (sort) url += `&sort=${sort}`;
-
     axiosInstance
-      .get(url)
+      .get("/products", {
+        params: { limit: LIMIT, offset, category, filter, sort },
+      })
       .then((res) => {
         dispatch(setProductList(res.data.products));
-        dispatch(setTotalProductCount(res.data.total));
+        dispatch(setTotal(res.data.total));
         dispatch(setFetchState("FETCHED"));
       })
       .catch((err) => {
         console.error("API Hatası:", err);
-        dispatch(setFetchState("ERROR"));
+        dispatch(setFetchState("FAILED"));
       });
   };
 };

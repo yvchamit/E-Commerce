@@ -3,10 +3,9 @@ import { Link } from "react-router-dom";
 import { ChevronRight, AlertCircle } from "lucide-react";
 
 const OrderSummary = ({ totalPrice = 0, hideButton = false }) => {
-  const { cart } = useSelector((state) => state.cart);
+  const { cart } = useSelector((state) => state.shoppingCart);
 
   const checkedItems = cart.filter((item) => item.checked === true);
-  console.log("BURASI BURASI BURASI:", checkedItems);
   const isNothingSelected = checkedItems.length === 0;
 
   const safeTotalPrice = Number(totalPrice) || 0;

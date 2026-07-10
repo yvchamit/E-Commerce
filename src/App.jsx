@@ -25,9 +25,6 @@ function App() {
 
   useEffect(() => {
     dispatch(verifyToken());
-  }, [dispatch]);
-
-  useEffect(() => {
     dispatch(fetchCategories());
   }, [dispatch]);
 

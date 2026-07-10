@@ -28,7 +28,6 @@ export const deleteCard = (cardId) => (dispatch) => {
   return axiosInstance
     .delete(`/user/card/${cardId}`)
     .then(() => {
-      console.log("Kart başarıyla silindi");
       dispatch(fetchCards());
     })
     .catch((err) => {

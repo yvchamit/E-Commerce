@@ -1,6 +1,7 @@
 import {
   ADD_TO_CART,
   CLEAR_CART,
+  LOGOUT,
   REMOVE_FROM_CART,
   SET_ADDRESS,
   SET_CART,
@@ -23,7 +24,7 @@ export const shoppingCartReducer = (state = initialCartState, action) => {
       return { ...state, payment: action.payload };
     case SET_ADDRESS:
       return { ...state, address: action.payload };
-    case "ADD_TO_CART": {
+    case ADD_TO_CART: {
       const existingProductIndex = state.cart.findIndex(
         (item) => item.product.id === action.payload.id,
       );
@@ -77,6 +78,8 @@ export const shoppingCartReducer = (state = initialCartState, action) => {
         cart: remainingItems,
       };
     }
+    case LOGOUT:
+      return { ...state, address: {}, payment: {} };
 
     default:
       return state;

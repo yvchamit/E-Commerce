@@ -1,9 +1,15 @@
-import { SET_LANGUAGE, SET_ROLES, SET_THEME, SET_USER, SET_ADDRESS_LIST,SET_CARD_LIST } from "../actionTypes";
+import {
+  SET_LANGUAGE,
+  SET_ROLES,
+  SET_THEME,
+  SET_USER,
+  SET_ADDRESS_LIST,
+  LOGOUT,
+} from "../actionTypes";
 
 const initialClientState = {
   user: {},
   addressList: [],
-  creditCards: [],
   roles: [],
   theme: "light",
   language: "tr",
@@ -21,8 +27,8 @@ export const clientReducer = (state = initialClientState, action) => {
       return { ...state, language: action.payload };
     case SET_ADDRESS_LIST:
       return { ...state, addressList: action.payload };
-    case SET_CARD_LIST:
-      return { ...state, creditCards: action.payload };
+    case LOGOUT:
+      return { ...state, user: {}, addressList: [], roles: [] };
     default:
       return state;
   }

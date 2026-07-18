@@ -8,11 +8,13 @@ import logger from "redux-logger";
 import { productReducer } from "./reducers/productReducer";
 import { shoppingCartReducer } from "./reducers/shoppingCartReducer";
 import { clientReducer } from "./reducers/clientReducer";
+import { paymentReducer } from "./reducers/paymentReducer"; 
 
 const rootReducer = combineReducers({
   client: clientReducer,
   product: productReducer,
   shoppingCart: shoppingCartReducer,
+  payment: paymentReducer,
 });
 
 const loadCartFromLS = () => {

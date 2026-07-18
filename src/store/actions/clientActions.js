@@ -1,6 +1,6 @@
 import { toast } from "react-toastify";
 import { axiosInstance } from "../../lib/axiosInstance";
-import { SET_LANGUAGE, SET_ROLES, SET_THEME, SET_USER } from "../actionTypes";
+import { LOGOUT, SET_LANGUAGE, SET_ROLES, SET_THEME, SET_USER } from "../actionTypes";
 
 
 export const getStoredToken = () =>
@@ -60,7 +60,7 @@ export const loginUserAction = (formData, rememberMe) => async (dispatch) => {
 
 export const logoutUser = () => (dispatch) => {
   clearStoredToken();
-  dispatch(setUser({}));
+  dispatch({ type: LOGOUT });
   toast.success("Başarıyla çıkış yapıldı.");
 };
 

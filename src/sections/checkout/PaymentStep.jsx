@@ -8,7 +8,7 @@ import CardForm from "../singUp/CardForm";
 
 const PaymentStep = () => {
   const dispatch = useDispatch();
-  const cardList = useSelector((state) => state.client.creditCards);
+  const cardList = useSelector((state) => state.payment.cardList);
   const selectedCard = useSelector((state) => state.shoppingCart.payment);
   const { grandTotal } = useCartSummary();
   const [showCardForm, setShowCardForm] = useState(false);

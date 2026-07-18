@@ -1,13 +1,14 @@
-// ─── Client Types ───────────────────────────────
+// Client Types
 export const SET_USER = "SET_USER";
 export const SET_ROLES = "SET_ROLES";
 export const SET_THEME = "SET_THEME";
 export const SET_LANGUAGE = "SET_LANGUAGE";
 export const SET_ADDRESS_LIST = "SET_ADDRESS_LIST";
 export const SET_SELECTED_ADDRESS = "SET_SELECTED_ADDRESS";
+export const LOGOUT = "LOGOUT";
 
 
-// ─── Product Types ──────────────────────────────
+// Product Types
 export const SET_CATEGORIES = "SET_CATEGORIES";
 export const SET_PRODUCT_LIST = "SET_PRODUCT_LIST";
 export const SET_TOTAL = "SET_TOTAL";
@@ -18,7 +19,7 @@ export const SET_FILTER = "SET_FILTER";
 export const TOGGLE_WISHLIST = "TOGGLE_WISHLIST";
 
 
-// ─── Shopping Cart Types ────────────────────────
+// Shopping Cart Types
 export const SET_CART = "SET_CART";
 export const SET_PAYMENT = "SET_PAYMENT";
 export const SET_ADDRESS = "SET_ADDRESS";
@@ -29,12 +30,4 @@ export const TOGGLE_CHECK_ITEM = "TOGGLE_CHECK_ITEM";
 export const CLEAR_CART = "CLEAR_CART";
 
 
-// ─── SİLİNECEKLER — kontrol bitince bu bloğu komple kaldıracağım ───
-// userReducer ile ölüyor:
-//export const LOGIN_START = "LOGIN_START";
-//export const LOGIN_SUCCESS = "LOGIN_SUCCESS";
-//export const LOGIN_FAILURE = "LOGIN_FAILURE";
-//export const LOGOUT = "LOGOUT";
-// paymentReducer ile ölüyor:
 export const SET_CARD_LIST = "SET_CARD_LIST";
-//export const ADD_NEW_CARD = "ADD_NEW_CARD";

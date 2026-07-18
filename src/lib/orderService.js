@@ -39,7 +39,7 @@ export const createOrder = async (
 
 export const getOrders = async () => {
   try {
-    const response = await axiosInstance.get("/order");
+    const response = await axiosInstance.get("/previous-orders");
     return response.data;
   } catch (error) {
     console.error("Orders fetching error:", error);

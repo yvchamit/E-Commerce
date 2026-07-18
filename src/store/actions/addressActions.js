@@ -1,5 +1,7 @@
+import { toast } from "react-toastify";
 import { axiosInstance } from "../../lib/axiosInstance";
 import { SET_ADDRESS_LIST } from "../actionTypes";
+import { setAddress } from "./shoppingCartActions";
 
 export const setAddressList = (addressList) => ({
   type: SET_ADDRESS_LIST,
@@ -23,14 +25,26 @@ export const addAddress = (addressData) => (dispatch) => {
   });
 };
 
-export const updateAddress = (addressData) => (dispatch) => {
-  return axiosInstance.put("/user/address", addressData).then((res) => {
-    dispatch(fetchAddresses());
-  });
+export const updateAddress = (addressId, addressData) => (dispatch) => {
+  return axiosInstance
+    .put(`/user/address/${addressId}`, addressData)
+    .then(() => {
+      dispatch(fetchAddresses());
+    });
 };
 
-export const deleteAddress = (addressId) => (dispatch) => {
-  return axiosInstance.delete(`/user/address/${addressId}`).then((res) => {
-    dispatch(fetchAddresses());
-  });
+export const deleteAddress = (addressId) => (dispatch, getState) => {
+  return axiosInstance
+    .delete(`/user/address/${addressId}`)
+    .then(() => {
+      dispatch(fetchAddresses());
+      const selected = getState().shoppingCart.address;
+      if (selected?.id === addressId) {
+        dispatch(setAddress({}));
+      }
+    })
+    .catch((err) => {
+      console.error("Adres silinemedi:", err.response?.data || err.message);
+      toast.error(err.response?.data?.message || "Adres silinemedi.");
+    });
 };

@@ -1,7 +1,7 @@
 import { Route, Redirect } from "react-router-dom";
 import { getStoredToken } from "../../store/actions/clientActions";
 
-const ProtectedRoute = ({ ...rest }) => {
+const ProtectedRoute = ({ component: Component, ...rest }) => {
   const token = getStoredToken();
 
   return (

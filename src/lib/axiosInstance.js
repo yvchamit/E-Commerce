@@ -1,7 +1,7 @@
-import axios from 'axios';
+import axios from "axios";
 
 export const axiosInstance = axios.create({
-  baseURL: 'https://workintech-fe-ecommerce.onrender.com',
+  baseURL: import.meta.env.VITE_API_URL,
 });
 
 axiosInstance.interceptors.request.use((config) => {
@@ -11,7 +11,3 @@ axiosInstance.interceptors.request.use((config) => {
   }
   return config;
 });
-
-
-//baseURL: 'https://workintech-fe-ecommerce.onrender.com'
-//baseURL: 'http://localhost:8080'

@@ -1,7 +1,7 @@
 import axios from 'axios';
 
 export const axiosInstance = axios.create({
-  baseURL: 'http://localhost:8080',
+  baseURL: 'https://workintech-fe-ecommerce.onrender.com',
 });
 
 axiosInstance.interceptors.request.use((config) => {
@@ -14,3 +14,4 @@ axiosInstance.interceptors.request.use((config) => {
 
 
 //baseURL: 'https://workintech-fe-ecommerce.onrender.com'
+//baseURL: 'http://localhost:8080'

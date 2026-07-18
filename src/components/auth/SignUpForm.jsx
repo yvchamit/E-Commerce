@@ -15,6 +15,7 @@ export default function SignUpForm() {
     handleSubmit,
     watch,
     getValues,
+    setValue,
     formState: { errors, isSubmitting },
   } = useForm({
     mode: "onBlur",
@@ -22,16 +23,24 @@ export default function SignUpForm() {
   });
 
   useEffect(() => {
-    axiosInstance.get("/roles").then((res) => setRoles(res.data));
-  }, []);
+    axiosInstance.get("/roles").then((res) => {
+      setRoles(res.data);
+      const customer = res.data.find((r) => r.code === "customer");
+      console.log("customer bulundu mu:", customer);
+      if (customer) {
+        setValue("role_id", String(customer.id));
+        console.log("setValue çağrıldı, id:", customer.id);
+      }
+    });
+  }, [setValue]);
 
   const selectedRoleId = watch("role_id");
   const isStore =
-    roles.find((r) => String(r.id) === String(selectedRoleId))?.code === "store";
+    roles.find((r) => String(r.id) === String(selectedRoleId))?.code ===
+    "store";
 
   const onSubmit = async (data) => {
     setSubmitError("");
-
 
     const payload = {
       name: data.name,
@@ -79,7 +88,10 @@ export default function SignUpForm() {
           error={errors.name}
           registration={register("name", {
             required: "Name is required!",
-            minLength: { value: 3, message: "Name must be at least 3 characters!" },
+            minLength: {
+              value: 3,
+              message: "Name must be at least 3 characters!",
+            },
           })}
         />
 
@@ -127,7 +139,8 @@ export default function SignUpForm() {
         <div className="flex flex-col gap-2">
           <label className="text-sm font-bold text-[#252B42]">Role</label>
           <select
-            {...register("role_id")}
+            value={selectedRoleId || ""}
+            onChange={(e) => setValue("role_id", e.target.value)}
             className="p-3 border rounded-md bg-[#F9F9F9] border-[#ECECEC] focus:outline-[#23A6F0]"
           >
             {roles.map((role) => (

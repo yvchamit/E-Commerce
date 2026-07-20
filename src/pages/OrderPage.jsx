@@ -83,7 +83,7 @@ const OrderPage = () => {
       <div className="max-w-section mx-auto px-4 py-8 flex flex-col md:flex-row gap-8">
         <div className="flex-2">
           {/* ADIM BAŞLIKLARI */}
-          <div className="flex mb-8 bg-white rounded-lg shadow-sm border overflow-hidden">
+          <div className="flex mb-8 bg-white rounded-lg shadow-sm overflow-hidden">
             {STEPS.map((step, i) => {
               // Ödeme adımı yalnızca adres seçiliyken tıklanabilir
               const isLocked = step.key === "payment" && !selectedAddress?.id;

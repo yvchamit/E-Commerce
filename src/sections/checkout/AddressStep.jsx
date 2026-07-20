@@ -8,7 +8,7 @@ import {
 } from "../../store/actions/addressActions";
 import { setAddress } from "../../store/actions/shoppingCartActions";
 import { Plus, Edit2, Trash2, MapPin, Phone, User } from "lucide-react";
-import AddressForm from "../singUp/AddressForm";
+import AddressForm from "../signUp/AddressForm";
 
 const AddressStep = () => {
   const dispatch = useDispatch();
@@ -23,9 +23,9 @@ const AddressStep = () => {
 
   const handleFormSubmit = (data) => {
     if (editingAddress) {
-      const { id, ...addressData } = data;
-      dispatch(updateAddress(editingAddress.id, addressData))
-        .then(() => setShowModal(false));
+      dispatch(updateAddress({ ...data, id: editingAddress.id })).then(() =>
+        setShowModal(false),
+      );
     } else {
       dispatch(addAddress(data)).then(() => setShowModal(false));
     }

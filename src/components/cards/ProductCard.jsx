@@ -1,5 +1,5 @@
-import { cn } from "../lib/mergeClass";
-import ProductColors from "./ProductColors";
+import { cn } from "../../lib/mergeClass";
+import ProductColors from "../ProductColors";
 import { Link } from "react-router-dom";
 
 function ProductCard({

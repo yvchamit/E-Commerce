@@ -1,7 +1,7 @@
-import BlogCard from "../components/BlogCard";
+import BlogCard from "../components/cards/BlogCard";
 import Footer from "../layout/Footer/Footer";
 import Header from "../layout/Header/Header";
-import Clients from "../sections/Clients";
+import Clients from "../sections/common/Clients";
 
 export default function BlogPage() {
   const blogData = [

@@ -1,4 +1,4 @@
-import PostCard from "../../components/PostCard";
+import PostCard from "../../components/cards/PostCard";
 
 function Posts() {
   return (

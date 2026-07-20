@@ -1,7 +1,7 @@
 import { Link, useHistory } from "react-router-dom";
 import { useSelector, useDispatch } from "react-redux";
 import md5 from "md5";
-import Dropdown from "../../components/Dropdown";
+import Dropdown from "../../components/ui/Dropdown";
 import { logoutUser } from "../../store/actions/clientActions";
 
 export default function UserMenu() {

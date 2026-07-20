@@ -1,7 +1,12 @@
 import { toast } from "react-toastify";
 import { axiosInstance } from "../../lib/axiosInstance";
-import { LOGOUT, SET_LANGUAGE, SET_ROLES, SET_THEME, SET_USER } from "../actionTypes";
-
+import {
+  LOGOUT,
+  SET_LANGUAGE,
+  SET_ROLES,
+  SET_THEME,
+  SET_USER,
+} from "../actionTypes";
 
 export const getStoredToken = () =>
   localStorage.getItem("token") || sessionStorage.getItem("token");
@@ -26,7 +31,6 @@ export const verifyToken = () => async (dispatch) => {
     } else {
       sessionStorage.setItem("token", newToken);
     }
-    axiosInstance.defaults.headers.common["Authorization"] = newToken;
   } catch (error) {
     console.error("Token geçersiz:", error);
     clearStoredToken();
@@ -39,7 +43,7 @@ export const loginUserAction = (formData, rememberMe) => async (dispatch) => {
     const { token, name, email, role_id } = response.data;
 
     dispatch(setUser({ name, email, role_id }));
-    axiosInstance.defaults.headers.common["Authorization"] = token;
+    //axiosInstance.defaults.headers.common["Authorization"] = token;
 
     if (rememberMe) {
       localStorage.setItem("token", token);
@@ -63,7 +67,6 @@ export const logoutUser = () => (dispatch) => {
   dispatch({ type: LOGOUT });
   toast.success("Başarıyla çıkış yapıldı.");
 };
-
 
 export const setUser = (user) => ({ type: SET_USER, payload: user });
 

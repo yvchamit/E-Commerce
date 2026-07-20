@@ -1,4 +1,4 @@
-import { cn } from "../lib/mergeClass";
+import { cn } from "../../lib/mergeClass";
 import { FaArrowRight } from "react-icons/fa";
 
 export default function BtnContact({

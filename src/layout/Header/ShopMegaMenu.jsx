@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { useSelector } from "react-redux";
-import Dropdown from "../../components/Dropdown";
+import Dropdown from "../../components/ui/Dropdown";
 
 const categoryPath = (cat, genderSlug) =>
   `/shop/${genderSlug}/${cat.code.split(":")[1]}/${cat.id}`;

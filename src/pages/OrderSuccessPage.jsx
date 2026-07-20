@@ -4,7 +4,7 @@ import { useSelector } from "react-redux";
 import confetti from "canvas-confetti";
 import { CheckCircle } from "lucide-react";
 import CategoryList from "../sections/shop/CategoryList";
-import SignUpFooterInfo from "../sections/singUp/SignUpFooterInfo";
+import SignUpFooterInfo from "../sections/signUp/SignUpFooterInfo";
 
 const OrderSuccessPage = () => {
   const { categories } = useSelector((state) => state.product);

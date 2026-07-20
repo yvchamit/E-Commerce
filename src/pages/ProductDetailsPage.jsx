@@ -1,8 +1,8 @@
 import BestsellerProducts from "../sections/shop/BestsellerProducts";
-import Clients from "../sections/Clients";
-import Footer from "../layout/Footer/Footer";
-import Header from "../layout/Header/Header";
-import ShopBreadCrump from "../layout/Header/ShopBreadCrump";
+import Clients from "../sections/common/Clients";
+import Footer from "../layout/footer/Footer";
+import Header from "../layout/header/Header";
+import ShopBreadCrump from "../layout/header/ShopBreadcrumb";
 import ProductDetail from "../sections/product/ProductDetail";
 import ProductTabs from "../sections/product/ProductTabs";
 import { useParams } from "react-router-dom/cjs/react-router-dom.min";

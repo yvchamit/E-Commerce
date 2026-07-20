@@ -1,6 +1,6 @@
 import LoginForm from "../components/auth/LoginForm";
 import { Link } from "react-router-dom/cjs/react-router-dom.min";
-import SocialFaIcons from "../components/SocialFaIcons";
+import SocialFaIcons from "../components/ui/SocialFaIcons";
 
 const LoginPage = () => {
   return (

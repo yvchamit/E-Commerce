@@ -1,4 +1,4 @@
-import { cn } from "../lib/mergeClass.js";
+import { cn } from "../../lib/mergeClass.js";
 
 const Pagination = ({ currentPage, totalPages, onPageChange }) => {
   if (totalPages <= 1) return null;

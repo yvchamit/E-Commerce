@@ -1,9 +1,9 @@
 import Header from "../layout/Header/Header";
 import Footer from "../layout/Footer/Footer";
-import ShopBreadCrump from "../layout/Header/ShopBreadCrump";
+import ShopBreadCrump from "../layout/Header/ShopBreadcrumb";
 import TeamList from "../sections/team/TeamList";
 import TeamHero from "../sections/team/TeamHero";
-import FreeTrial from "../sections/FreeTrial";
+import FreeTrial from "../sections/common/FreeTrial";
 
 function TeamPage() {
   return (

@@ -1,6 +1,6 @@
 import { AlarmClock, ChevronRight } from "lucide-react";
 import { AreaChartOutlined } from "@ant-design/icons";
-import { cn } from "../lib/mergeClass";
+import { cn } from "../../lib/mergeClass";
 
 export default function BlogCard({
   image,

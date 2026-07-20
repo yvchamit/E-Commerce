@@ -1,5 +1,5 @@
 import { useState } from "react";
-import PricingCard from "../../components/PricingCard";
+import PricingCard from "../../components/cards/PricingCard";
 
 const PricingList = () => {
   const [isYearly, setIsYearly] = useState(false);

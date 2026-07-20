@@ -1,6 +1,6 @@
 import SignUpForm from "../components/auth/SignUpForm";
-import SignUpFooterInfo from "../sections/singUp/SignUpFooterInfo";
-import SignUpHeader from "../sections/singUp/SignUpHeader";
+import SignUpFooterInfo from "../sections/signUp/SignUpFooterInfo";
+import SignUpHeader from "../sections/signUp/SignUpHeader";
 
 const SignUpPage = () => {
   return (

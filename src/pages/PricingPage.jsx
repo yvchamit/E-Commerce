@@ -1,8 +1,8 @@
 import Footer from "../layout/Footer/Footer";
 import Header from "../layout/Header/Header";
-import ShopBreadCrump from "../layout/Header/ShopBreadCrump";
-import Clients from "../sections/Clients";
-import FreeTrial from "../sections/FreeTrial";
+import ShopBreadCrump from "../layout/Header/ShopBreadcrumb";
+import Clients from "../sections/common/Clients";
+import FreeTrial from "../sections/common/FreeTrial";
 import PricingFAQ from "../sections/pricing/PricingFAQ";
 import PricingList from "../sections/pricing/PricingList";
 

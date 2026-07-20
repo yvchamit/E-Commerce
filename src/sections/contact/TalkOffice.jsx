@@ -1,5 +1,5 @@
 import { LuRedo } from "react-icons/lu";
-import BtnContact from "../../components/BtnContact";
+import BtnContact from "../../components/ui/BtnContact";
 
 export default function TalkOffice() {
   return (

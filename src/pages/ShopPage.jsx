@@ -1,16 +1,16 @@
-import Clients from "../sections/Clients";
-import Footer from "../layout/Footer/Footer";
-import Header from "../layout/Header/Header";
-import ShopBreadCrump from "../layout/Header/ShopBreadCrump";
+import Clients from "../sections/common/Clients";
+import Footer from "../layout/footer/Footer";
+import Header from "../layout/header/Header";
+import ShopBreadCrump from "../layout/header/ShopBreadcrumb";
 import ShopFilterBar from "../sections/shop/ShopFilterBar";
-import ProductCard from "../components/ProductCard";
+import ProductCard from "../components/cards/ProductCard";
 import CategoryList from "../sections/shop/CategoryList";
-import Pagination from "../components/Pagination";
+import Pagination from "../components/ui/Pagination";
 import { useState, useEffect } from "react";
 import { cn } from "../lib/mergeClass";
 import { useDispatch, useSelector } from "react-redux";
 import { fetchProducts } from "../store/actions/productActions";
-import LoadingSpinner from "../components/LoadingSpinner";
+import LoadingSpinner from "../components/ui/LoadingSpinner";
 import { useHistory, useLocation, useParams } from "react-router-dom";
 
 function ShopPage() {

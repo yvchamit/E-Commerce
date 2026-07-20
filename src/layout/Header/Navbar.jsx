@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { navConfig } from "../../lib/navConfig";
-import Dropdown from "../../components/Dropdown";
+import Dropdown from "../../components/ui/Dropdown";
 import { FaUser, FaRegHeart, FaTimes } from "react-icons/fa";
 import { IoMdSearch } from "react-icons/io";
 import { RiShoppingCart2Line } from "react-icons/ri";

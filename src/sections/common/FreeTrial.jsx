@@ -4,7 +4,7 @@ import {
   FaInstagram,
   FaLinkedin,
 } from "react-icons/fa";
-import BtnContact from "../components/BtnContact";
+import BtnContact from "../../components/ui/BtnContact";
 
 const FreeTrial = () => {
   return (

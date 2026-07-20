@@ -1,4 +1,4 @@
-import TeamCard from '../../components/TeamCard'
+import TeamCard from '../../components/cards/TeamCard'
 
 const teamMembers = [
   { id: 1, name: "Username", role: "Profession", image: "/image/team1.jpg" },

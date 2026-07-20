@@ -1,6 +1,6 @@
 import { Link } from "react-router-dom";
 import { FaUser } from "react-icons/fa";
-import BtnContact from "../../components/BtnContact";
+import BtnContact from "../../components/ui/BtnContact";
 
 export default function AuthLinks({ isCorporate, showIcon }) {
   if (isCorporate) {

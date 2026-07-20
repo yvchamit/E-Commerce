@@ -25,12 +25,10 @@ export const addAddress = (addressData) => (dispatch) => {
   });
 };
 
-export const updateAddress = (addressId, addressData) => (dispatch) => {
-  return axiosInstance
-    .put(`/user/address/${addressId}`, addressData)
-    .then(() => {
-      dispatch(fetchAddresses());
-    });
+export const updateAddress = (address) => (dispatch) => {
+  return axiosInstance.put("/user/address", address).then(() => {
+    dispatch(fetchAddresses());
+  });
 };
 
 export const deleteAddress = (addressId) => (dispatch, getState) => {

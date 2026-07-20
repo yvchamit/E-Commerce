@@ -1,6 +1,6 @@
-import { ChevronRight } from "lucide-react"; // veya senin kullandığın ikon seti
+import { ChevronRight } from "lucide-react";
 
-const ShopBreadCrump = ({
+const ShopBreadcrumb = ({
   title = "Shop",
   subtitle,
   showTitle = true,
@@ -57,4 +57,4 @@ const ShopBreadCrump = ({
   );
 };
 
-export default ShopBreadCrump;
+export default ShopBreadcrumb;

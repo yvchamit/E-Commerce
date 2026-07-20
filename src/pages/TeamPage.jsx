@@ -1,6 +1,6 @@
-import Header from "../layout/Header/Header";
-import Footer from "../layout/Footer/Footer";
-import ShopBreadCrump from "../layout/Header/ShopBreadcrumb";
+import Header from "../layout/header/Header";
+import Footer from "../layout/footer/Footer";
+import ShopBreadcrumb from "../layout/header/ShopBreadcrumb";
 import TeamList from "../sections/team/TeamList";
 import TeamHero from "../sections/team/TeamHero";
 import FreeTrial from "../sections/common/FreeTrial";
@@ -10,7 +10,7 @@ function TeamPage() {
     <>
       <Header page="team" showContactIcon={true} />
       <div className="pt-8">
-        <ShopBreadCrump
+        <ShopBreadcrumb
           variant="centered"
           subtitle="WHAT WE DO"
           title="Innovation tailored for you"

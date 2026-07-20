@@ -1,6 +1,6 @@
-import Copyright from "../../../src/layout/Footer/Copyright";
-import FooterInfo from "../../../src/layout/Footer/FooterInfo";
-import FooterTop from "../../../src/layout/Footer/FooterTop";
+import Copyright from "../../../src/layout/footer/Copyright";
+import FooterInfo from "../../../src/layout/footer/FooterInfo";
+import FooterTop from "../../../src/layout/footer/FooterTop";
 
 function Footer({ isGray = false }) {
   return (

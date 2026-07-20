@@ -1,7 +1,7 @@
 import Clients from "../sections/common/Clients";
 import Footer from "../layout/footer/Footer";
 import Header from "../layout/header/Header";
-import ShopBreadCrump from "../layout/header/ShopBreadcrumb";
+import ShopBreadcrumb from "../layout/header/ShopBreadcrumb";
 import ShopFilterBar from "../sections/shop/ShopFilterBar";
 import ProductCard from "../components/cards/ProductCard";
 import CategoryList from "../sections/shop/CategoryList";
@@ -95,7 +95,7 @@ function ShopPage() {
   return (
     <>
       <Header page="shop" />
-      <ShopBreadCrump />
+      <ShopBreadcrumb />
       <CategoryList categories={topCategories} />
 
       <ShopFilterBar

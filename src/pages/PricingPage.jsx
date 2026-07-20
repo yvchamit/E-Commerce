@@ -1,6 +1,6 @@
-import Footer from "../layout/Footer/Footer";
-import Header from "../layout/Header/Header";
-import ShopBreadCrump from "../layout/Header/ShopBreadcrumb";
+import Footer from "../layout/footer/Footer";
+import Header from "../layout/header/Header";
+import ShopBreadcrumb from "../layout/header/ShopBreadcrumb";
 import Clients from "../sections/common/Clients";
 import FreeTrial from "../sections/common/FreeTrial";
 import PricingFAQ from "../sections/pricing/PricingFAQ";
@@ -10,7 +10,7 @@ function PricingPage() {
   return (
     <>
       <Header page="Pricing" showIcon="true" />
-      <ShopBreadCrump
+      <ShopBreadcrumb
         variant="centered"
         subtitle="PRICING"
         title="Simple Pricing"

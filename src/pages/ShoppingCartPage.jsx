@@ -1,8 +1,8 @@
 import React from "react";
 import { useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import Header from "../layout/Header/Header";
-import Footer from "../layout/Footer/Footer";
+import Header from "../layout/header/Header";
+import Footer from "../layout/footer/Footer";
 import CartItem from "../sections/shoppingCart/CartItem";
 import OrderSummary from "../sections/shoppingCart/OrderSummary";
 import CartFavorites from "../sections/shoppingCart/CartFavorites";

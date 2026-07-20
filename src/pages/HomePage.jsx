@@ -1,10 +1,10 @@
-import Header from "../layout/Header/Header";
+import Header from "../layout/header/Header";
 import MainSlider from "../sections/home/MainSlider";
 import EditorsPick from "../sections/home/EditorsPick";
 import SecondSlider from "../sections/home/SecondSlider";
 import Storyteller from "../sections/home/Storyteller";
 import Posts from "../sections/home/Posts";
-import Footer from "../layout/Footer/Footer";
+import Footer from "../layout/footer/Footer";
 import BestsellerProducts from "../sections/shop/BestsellerProducts";
 import { useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";

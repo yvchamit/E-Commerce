@@ -1,7 +1,7 @@
 import { useEffect, useState } from "react";
 import { getOrders } from "../lib/orderService";
-import Header from "../layout/Header/Header";
-import Footer from "../layout/Footer/Footer";
+import Header from "../layout/header/Header";
+import Footer from "../layout/footer/Footer";
 import { ChevronDown, ChevronUp, Package } from "lucide-react";
 
 const PLACEHOLDER_IMG =

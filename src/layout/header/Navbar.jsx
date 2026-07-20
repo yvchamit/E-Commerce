@@ -14,7 +14,7 @@ import WishlistDropdown from "../../components/WishlistDropdown";
 import UserMenu from "./UserMenu";
 import AuthLinks from "./AuthLinks";
 import ShopMegaMenu from "./ShopMegaMenu";
-import ActionIcons from "../Header/ActionIcons";
+import ActionIcons from "../header/ActionIcons";
 
 
 
